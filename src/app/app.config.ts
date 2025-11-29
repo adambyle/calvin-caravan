@@ -2,11 +2,22 @@ import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChang
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBrDGQeiSDr12nM7nM9NfKZlbRC71QI8VI",
+  authDomain: "calvin-caravan.firebaseapp.com",
+  projectId: "calvin-caravan",
+  storageBucket: "calvin-caravan.firebasestorage.app",
+  messagingSenderId: "217391474028",
+  appId: "1:217391474028:web:9a3bbedb69129cce7c3f49"
+};
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
+    provideFirebaseApp(() => initializeApp(firebaseConfig)),
     provideRouter(routes)
   ]
 };
