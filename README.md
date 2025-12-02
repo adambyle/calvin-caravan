@@ -8,8 +8,16 @@ Our website will allow users to view trips from across the campus community, see
 
 Adam Byle, Hayden Stob, Nick Roberts
 
+## Deployment and Documentation
+
 Calvin Caravan is Deployed Here:
 <https://calvin-caravan.web.app>
+
+[Link](https://docs.google.com/document/d/13BqIGDLaKxGAilZVZQL7wYa01UzRgoYwp55AxmD5nPI/edit?tab=t.u1o4lj3034op) to our Project Design Documentation, including:
+* A list of Pages
+* A list of Components
+* Firebase database structure
+* Implementation Plan
 
 ### SLOs
 
