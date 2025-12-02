@@ -11,6 +11,13 @@ Adam Byle, Hayden Stob, Nick Roberts
 Calvin Caravan is Deployed Here:
 <https://calvin-caravan.web.app>
 
+Link to our Project Design Documentation, including:
+* A list of Pages
+* A list of Components
+* Firebase database structure
+* Implementation Plan
+<https://docs.google.com/document/d/13BqIGDLaKxGAilZVZQL7wYa01UzRgoYwp55AxmD5nPI/edit?usp=sharing>
+
 ### SLOs
 
 * P3 - write code to create, read (update and delete optional) to/from Cloud Firestore database using AngularFire (A)
