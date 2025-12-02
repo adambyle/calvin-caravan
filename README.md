@@ -8,6 +8,8 @@ Our website will allow users to view trips from across the campus community, see
 
 Adam Byle, Hayden Stob, Nick Roberts
 
+## Deployment and Documentation
+
 Calvin Caravan is Deployed Here:
 <https://calvin-caravan.web.app>
 
