@@ -1,5 +1,5 @@
 // src/app/pages/homepage/homepage.component.ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -37,7 +37,8 @@ import { TripListComponent } from '../../components/trip-list.component';
 
     <div class="container">
       <app-top-filter-bar></app-top-filter-bar>
-      <app-search-bar></app-search-bar>
+      <app-search-bar (message)="handleChild($event.target.value)"></app-search-bar>
+      <p>Message from searchbar: {{ message() }}</p>
       <app-trip-list></app-trip-list>
     </div>
   `,
@@ -70,4 +71,10 @@ import { TripListComponent } from '../../components/trip-list.component';
     }
   `]
 })
-export class HomepageComponent {}
+export class HomepageComponent {
+  message = signal('');
+
+  handleChild(message: string[]) {
+    this.message.set(msg);  // update signal with emitted value
+  }
+}
