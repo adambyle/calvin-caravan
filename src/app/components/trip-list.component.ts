@@ -16,7 +16,7 @@ import { Trip } from '../models/Trip';
         <ul>
           @for(i of trips(); track $index) {
             <!-- Turn later into <app-trip-list-item></app-trip-list-item> -->
-            <li>ID {{$index}}:{{i.title}}</li>
+            <li>List item {{$index}}:{{i.title}}</li>
           }
         </ul>
       </div>

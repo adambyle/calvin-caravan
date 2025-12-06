@@ -61,7 +61,7 @@ import { Trip } from '../models/Trip';
       </div>
 
       <div class ="held-trips-in-component">
-          <p class="result-count">DEV Held Trips in component in search bar: {{ filteredIds.length }}</p>
+          <p class="result-count">DEV Held Trips in component in search bar: {{ allTrips()?.length }}</p>
         @if(allTrips()) {
           <ul>
             @for(t of allTrips(); track t.id) {
