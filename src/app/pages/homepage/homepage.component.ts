@@ -39,9 +39,9 @@ import { documentId } from '@angular/fire/firestore';
     <div class="container">
       <app-top-filter-bar></app-top-filter-bar>
       <!-- TODO: Remove dummy data DEVTRIP when we are successfully fetching from Firebase -->
-      <app-search-bar [allTrips]="DEVTRIPS"(capturedFilteredIds)="handleChild($event)"></app-search-bar>
+      <app-search-bar [allTrips]="allTrips"(capturedFilteredIds)="onFilteredIdsChange($event)"></app-search-bar>
       <p>DEV OUTPUT from searchbar: {{ searchBarOutput().join(', ') }}</p>
-      <app-trip-list></app-trip-list>
+      <app-trip-list [trips]="filteredTrips"></app-trip-list>
     </div>
   `,
   styles: [`
@@ -75,42 +75,46 @@ import { documentId } from '@angular/fire/firestore';
 })
 export class HomepageComponent {
   searchBarOutput = signal<string[]>([""]);
-    // TODO: When we are successfully fetching trip objects from firebase, remove this dummy data
-    DEVTRIP1: Trip = (() => {
-      const fullTrip = {
-        document_id: 'TRIP1',
-        owner_id: 'USER67890',
-        title: 'Spring Break Service Trip to Guatemala',
-        tags: ['service', 'international', 'spring-break'],
-        requirements: 'Passport required. Must attend 2 pre-trip meetings.',
-        startDate: new Date('2025-03-10').toISOString(),
-        endDate: new Date('2025-03-17').toISOString(),
-        postedDate: new Date().toISOString(),
-        price: 1450,
-        maxCapacity: 20,
-        currentCapacity: 12,
-        description: `Join us for a week-long service trip partnering with local schools.
+  filteredTrips: Trip[] = [];
+  // TODO: When we are successfully fetching trip objects from firebase, remove this dummy data
+  DEVTRIP1: Trip = (() => {
+    const fullTrip = {
+      document_id: 'TRIP1',
+      owner_id: 'USER67890',
+      title: 'Spring Break Service Trip to Guatemala',
+      tags: ['service', 'international', 'spring-break'],
+      requirements: 'Passport required. Must attend 2 pre-trip meetings.',
+      startDate: new Date('2025-03-10').toISOString(),
+      endDate: new Date('2025-03-17').toISOString(),
+      postedDate: new Date().toISOString(),
+      price: 1450,
+      maxCapacity: 20,
+      currentCapacity: 12,
+      description: `Join us for a week-long service trip partnering with local schools.
         Participants will assist with construction projects, tutoring, and community outreach.`,
-        primaryLocation: 'Guatemala City, Guatemala',
-        relatedLinks: [
-          'https://example.com/guatemala-service-trip',
-          'https://example.com/packing-list'
-        ],
-        headerImage: 'https://example.com/images/guatemala-trip-header.jpg',
-        meetingInfo: 'Weekly planning meetings Wednesdays at 7 PM in Science Building 204.',
-        status: 'proposed',
-        visibility: true
-      };
-      
-      // destructure only the Trip fields
-      const { document_id: id, title: title, primaryLocation: destination, startDate: date } = fullTrip;
-      
-      return { id, title, destination, date };
-    })();
-    
-    handleChild(event: string[]) {
-      this.searchBarOutput.set(event);  // update signal with emitted value
-    }
-    DEVTRIP2 = {...this.DEVTRIP1, id : "TRIP2", title : "Spring Break Getaway to Brazil"};
-    DEVTRIPS: Trip[] = [this.DEVTRIP1, this.DEVTRIP2];
+      primaryLocation: 'Guatemala City, Guatemala',
+      relatedLinks: [
+        'https://example.com/guatemala-service-trip',
+        'https://example.com/packing-list'
+      ],
+      headerImage: 'https://example.com/images/guatemala-trip-header.jpg',
+      meetingInfo: 'Weekly planning meetings Wednesdays at 7 PM in Science Building 204.',
+      status: 'proposed',
+      visibility: true
+    };
+
+    // destructure only the Trip fields
+    const { document_id: id, title: title, primaryLocation: destination, startDate: date } = fullTrip;
+
+    return { id, title, destination, date };
+  })();
+
+  onFilteredIdsChange(event: string[]) {
+    this.searchBarOutput.set(event);  // update signal with emitted value
+    this.filteredTrips = this.allTrips.filter(trip => this.searchBarOutput().includes(trip.id));
+  }
+
+  DEVTRIP2 = { ...this.DEVTRIP1, id: "TRIP2", title: "Spring Break Getaway to Brazil" };
+  DEVTRIPS: Trip[] = [this.DEVTRIP1, this.DEVTRIP2];
+  allTrips: Trip[] = this.DEVTRIPS;
 }
