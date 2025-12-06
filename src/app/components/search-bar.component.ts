@@ -6,16 +6,10 @@ import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import { Trip } from '../models/Trip';
+
 
 // Usage: <search-bar.component [trips]="Trips[]"></demo-list>
-
-interface Trip {
-  id: string;
-  title?: string;
-  origin?: string;
-  destination?: string;
-  date?: string;
-}
 
 @Component({
   selector: 'app-search-bar',
@@ -64,18 +58,18 @@ interface Trip {
                  [(ngModel)]="dateFilter"
                  (ngModelChange)="applyFilters()" />
         </mat-form-field>
-
       </div>
 
       <div class="results">
-        <p class="result-count">Results: {{ filteredIds.length }}</p>
-
-        <ul *ngIf="previewTrips.length">
-          <li *ngFor="let t of previewTrips">
-            {{ t.id }} —
-            {{ t.title || (t.origin + " → " + t.destination) }}
-          </li>
+        <p class="result-count">DEV Results in search bar: {{ filteredIds.length }}</p>
+        @if(filteredIds.length) {
+        <ul>
+          @for(i of filteredIds; track $index) {
+            <li>ID {{$index}}:{{i}}</li>
+          }
         </ul>
+
+        }
       </div>
 
       <div>
@@ -122,49 +116,17 @@ export class SearchBarComponent {
 
   allTrips = input<Trip[]>();
   capturedFilteredIds = output<string[]>();
-  previewTrips: Trip[] = [];
   filteredIds: string[] = [];
 
-  filteredResultsChanged(event: any) {    // called from mat-slider (change) event.
-    this.capturedFilteredIds.emit(event.value);   // or event.target.value?
+  ngOnInit() {
+    this.applyFilters();
+  }
+  filteredResultsChanged(trips: string[]) {    // called from mat-slider (change) event.
+    this.capturedFilteredIds.emit(trips);   // or event.target.value?
   }
 
-
-DEVTRIP: Trip = (() => {
-  const fullTrip = {
-    document_id: 'TRIP12345',
-    owner_id: 'USER67890',
-    title: 'Spring Break Service Trip to Guatemala',
-    tags: ['service', 'international', 'spring-break'],
-    requirements: 'Passport required. Must attend 2 pre-trip meetings.',
-    startDate: new Date('2025-03-10').toISOString(),
-    endDate: new Date('2025-03-17').toISOString(),
-    postedDate: new Date().toISOString(),
-    price: 1450,
-    maxCapacity: 20,
-    currentCapacity: 12,
-    description: `Join us for a week-long service trip partnering with local schools.
-Participants will assist with construction projects, tutoring, and community outreach.`,
-    primaryLocation: 'Guatemala City, Guatemala',
-    relatedLinks: [
-      'https://example.com/guatemala-service-trip',
-      'https://example.com/packing-list'
-    ],
-    headerImage: 'https://example.com/images/guatemala-trip-header.jpg',
-    meetingInfo: 'Weekly planning meetings Wednesdays at 7 PM in Science Building 204.',
-    status: 'proposed',
-    visibility: true
-  };
-
-  // destructure only the Trip fields
-  const { document_id: id, title, primaryLocation: destination, startDate: date } = fullTrip;
-
-  return { id, title, destination, date };
-})();
-
   applyFilters() {
-    // const trips: Trip[] | undefined = this.allTrips();
-    const trips: Trip[] = [this.DEVTRIP];
+    const trips: Trip[] | undefined = this.allTrips();
     const term = this.searchTerm.trim().toLowerCase();
     const origin = this.originFilter.trim().toLowerCase();
     const destination = this.destinationFilter.trim().toLowerCase();
@@ -174,6 +136,13 @@ Participants will assist with construction projects, tutoring, and community out
       this.filteredResultsChanged(this.filteredIds); // DEV
       return;
     }
+
+    if (term === "") {
+      this.filteredIds = trips.map(t => t.id);
+      this.filteredResultsChanged(this.filteredIds); // DEV
+      return;
+    }
+
     const matches = trips.filter(t => {
       const titleMatch = term ? (t.title || '').toLowerCase().includes(term) : true;
       const originMatch = origin ? (t.origin || '').toLowerCase().includes(origin) : true;
@@ -184,6 +153,5 @@ Participants will assist with construction projects, tutoring, and community out
 
     this.filteredIds = matches.map(m => m.id);
     this.filteredResultsChanged(this.filteredIds);
-    this.previewTrips = matches.slice(0, 10);
   }
 }
