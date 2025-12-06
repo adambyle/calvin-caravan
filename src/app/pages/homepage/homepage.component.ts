@@ -40,7 +40,7 @@ import { documentId } from '@angular/fire/firestore';
       <app-top-filter-bar></app-top-filter-bar>
       <!-- TODO: Remove dummy data DEVTRIP when we are successfully fetching from Firebase -->
       <app-search-bar [allTrips]="DEVTRIPS"(capturedFilteredIds)="handleChild($event)"></app-search-bar>
-      <p>DEV Message from searchbar: {{ message().join(', ') }}</p>
+      <p>DEV OUTPUT from searchbar: {{ searchBarOutput().join(', ') }}</p>
       <app-trip-list></app-trip-list>
     </div>
   `,
@@ -74,7 +74,7 @@ import { documentId } from '@angular/fire/firestore';
   `]
 })
 export class HomepageComponent {
-  message = signal<string[]>([""]);
+  searchBarOutput = signal<string[]>([""]);
     // TODO: When we are successfully fetching trip objects from firebase, remove this dummy data
     DEVTRIP1: Trip = (() => {
       const fullTrip = {
@@ -103,14 +103,14 @@ export class HomepageComponent {
       };
       
       // destructure only the Trip fields
-      const { document_id: id, title, primaryLocation: destination, startDate: date } = fullTrip;
+      const { document_id: id, title: title, primaryLocation: destination, startDate: date } = fullTrip;
       
       return { id, title, destination, date };
     })();
     
     handleChild(event: string[]) {
-      this.message.set(event);  // update signal with emitted value
+      this.searchBarOutput.set(event);  // update signal with emitted value
     }
-    DEVTRIP2 = {...this.DEVTRIP1, id : "TRIP2"};
+    DEVTRIP2 = {...this.DEVTRIP1, id : "TRIP2", title : "Spring Break Getaway to Brazil"};
     DEVTRIPS: Trip[] = [this.DEVTRIP1, this.DEVTRIP2];
 }

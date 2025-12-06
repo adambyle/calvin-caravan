@@ -60,8 +60,18 @@ import { Trip } from '../models/Trip';
         </mat-form-field>
       </div>
 
+      <div class ="held-trips-in-component">
+          <p class="result-count">DEV Held Trips in component in search bar: {{ filteredIds.length }}</p>
+        @if(allTrips()) {
+          <ul>
+            @for(t of allTrips(); track t.id) {
+            <li>ID {{$index}}:{{t.id}} Title: {{t.title}}</li>
+            }
+          </ul>
+        }
+
       <div class="results">
-        <p class="result-count">DEV Results in search bar: {{ filteredIds.length }}</p>
+        <p class="result-count">DEV Filtered Results in search bar (search bar gives just the ids): {{ filteredIds.length }}</p>
         @if(filteredIds.length) {
         <ul>
           @for(i of filteredIds; track $index) {
