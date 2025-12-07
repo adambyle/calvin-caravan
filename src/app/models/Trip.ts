@@ -4,5 +4,7 @@ export interface Trip {
   title?: string;
   origin?: string;
   destination?: string;
-  date?: string;  // ISO string or similar
+  startDate?: string;  // ISO string or similar
+  endDate?: string;  // ISO string or similar
+
 }

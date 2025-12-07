@@ -35,18 +35,23 @@ import { documentId } from '@angular/fire/firestore';
         <mat-icon>account_circle</mat-icon>
       </button>
     </mat-toolbar>
-
+    
     <div class="container">
-      <app-top-filter-bar></app-top-filter-bar>
+      <app-top-filter-bar (selectedFilter)="onSelectedFilterTagChange($event)" class="filter-toolbar"></app-top-filter-bar>
+      <p>{{selectedFilter()}}</p>
       <!-- TODO: Remove dummy data DEVTRIP when we are successfully fetching from Firebase -->
       <app-search-bar [allTrips]="allTrips"(capturedFilteredIds)="onFilteredIdsChange($event)"></app-search-bar>
-      <p>DEV OUTPUT from searchbar: {{ searchBarOutput().join(', ') }}</p>
+      <!-- <p>DEV OUTPUT from searchbar: {{ searchBarOutput().join(', ') }}</p> -->
       <app-trip-list [trips]="filteredTrips"></app-trip-list>
     </div>
   `,
   styles: [`
     .spacer {
       flex: 1 1 auto;
+    }
+
+    .dev {
+      background-color: #aaa;
     }
 
     .container {
@@ -67,6 +72,12 @@ import { documentId } from '@angular/fire/firestore';
       color: #666;
     }
 
+    .filter-toolbar {
+      display: flex;
+      width: 100%;
+      background-color: #99eeff;
+    }
+
     .trip-list h2 {
       margin-top: 32px;
       margin-bottom: 16px;
@@ -74,6 +85,7 @@ import { documentId } from '@angular/fire/firestore';
   `]
 })
 export class HomepageComponent {
+  selectedFilter = signal<string>("");
   searchBarOutput = signal<string[]>([""]);
   filteredTrips: Trip[] = [];
   // TODO: When we are successfully fetching trip objects from firebase, remove this dummy data
@@ -81,11 +93,12 @@ export class HomepageComponent {
     const fullTrip = {
       document_id: 'TRIP1',
       owner_id: 'USER67890',
+      origin: 'Michigan',
       title: 'Spring Break Service Trip to Guatemala',
       tags: ['service', 'international', 'spring-break'],
       requirements: 'Passport required. Must attend 2 pre-trip meetings.',
-      startDate: new Date('2025-03-10').toISOString(),
-      endDate: new Date('2025-03-17').toISOString(),
+      startDate: new Date('2026-01-2').toISOString(),
+      endDate: new Date('2026-01-5').toISOString(),
       postedDate: new Date().toISOString(),
       price: 1450,
       maxCapacity: 20,
@@ -104,14 +117,18 @@ export class HomepageComponent {
     };
 
     // destructure only the Trip fields
-    const { document_id: id, title: title, primaryLocation: destination, startDate: date } = fullTrip;
+    const { document_id: id, title: title, primaryLocation: destination, startDate: startDate, origin: origin, endDate: endDate } = fullTrip;
 
-    return { id, title, destination, date };
+    return { id, title, destination, startDate, endDate, origin };
   })();
 
   onFilteredIdsChange(event: string[]) {
     this.searchBarOutput.set(event);  // update signal with emitted value
     this.filteredTrips = this.allTrips.filter(trip => this.searchBarOutput().includes(trip.id));
+  }
+  
+  onSelectedFilterTagChange(event: string) {
+    this.selectedFilter.set(event);  // update signal with emitted value
   }
 
   DEVTRIP2 = { ...this.DEVTRIP1, id: "TRIP2", title: "Spring Break Getaway to Brazil" };

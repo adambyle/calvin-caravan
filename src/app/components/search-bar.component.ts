@@ -6,7 +6,9 @@ import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
-import { Trip } from '../models/Trip';
+import { Trip } from '../models/Trip'; 
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 
 // Usage: <search-bar.component [trips]="Trips[]"></demo-list>
@@ -20,6 +22,8 @@ import { Trip } from '../models/Trip';
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   template: `
     <div class="search-bar">
@@ -53,39 +57,44 @@ import { Trip } from '../models/Trip';
 
         <!-- Date -->
         <mat-form-field appearance="outline" class="small">
-          <mat-label>Date</mat-label>
-          <input matInput type="date"
-                 [(ngModel)]="dateFilter"
-                 (ngModelChange)="applyFilters()" />
+          <mat-label>Date Range</mat-label>
+
+          <mat-date-range-input [rangePicker]="picker">
+            <input matStartDate placeholder="Start Date" [(ngModel)]="startDate" (ngModelChange)="applyFilters()">
+            <input matEndDate placeholder="End Date" [(ngModel)]="endDate" (ngModelChange)="applyFilters()">
+          </mat-date-range-input>
+
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
         </mat-form-field>
       </div>
 
-      <div class ="held-trips-in-component">
-          <p class="result-count">DEV Held Trips in component in search bar: {{ allTrips()?.length }}</p>
-        @if(allTrips()) {
+      <!-- <div class="dev">
+        <div class ="held-trips-in-component">
+            <p class="result-count">DEV Held Trips in component in search bar: {{ allTrips()?.length }}</p>
+          @if(allTrips()) {
+            <ul>
+              @for(t of allTrips(); track t.id) {
+              <li>ID {{$index}}:{{t.id}} Title: {{t.title}}</li>
+              }
+            </ul>
+          }
+
+          <p class="result-count">DEV Filtered Results in search bar (search bar gives just the ids): {{ filteredIds.length }}</p>
+          @if(filteredIds.length) {
           <ul>
-            @for(t of allTrips(); track t.id) {
-            <li>ID {{$index}}:{{t.id}} Title: {{t.title}}</li>
+            @for(i of filteredIds; track $index) {
+              <li>ID {{$index}}:{{i}}</li>
             }
           </ul>
-        }
 
-      <div class="results">
-        <p class="result-count">DEV Filtered Results in search bar (search bar gives just the ids): {{ filteredIds.length }}</p>
-        @if(filteredIds.length) {
-        <ul>
-          @for(i of filteredIds; track $index) {
-            <li>ID {{$index}}:{{i}}</li>
           }
-        </ul>
-
-        }
-      </div>
+        </div>
 
       <div>
         <p>DEV:</p>
         <p>{{ searchTerm }}, {{ originFilter }}, {{ destinationFilter }}, {{ dateFilter }}</p>
-      </div>
+      </div> -->
     </div>
   `,
   styles: [`
@@ -94,6 +103,10 @@ import { Trip } from '../models/Trip';
       display: flex;
       flex-direction: column;
       gap: 16px;
+    }
+
+    .dev {
+      background-color: #c6cc75ff;
     }
 
     .controls {
@@ -122,7 +135,8 @@ export class SearchBarComponent {
   searchTerm = '';
   originFilter = '';
   destinationFilter = '';
-  dateFilter = '';
+  startDate = new Date();
+  endDate = new Date();
 
   allTrips = input<Trip[]>();
   capturedFilteredIds = output<string[]>();
@@ -140,15 +154,10 @@ export class SearchBarComponent {
     const term = this.searchTerm.trim().toLowerCase();
     const origin = this.originFilter.trim().toLowerCase();
     const destination = this.destinationFilter.trim().toLowerCase();
-    const date = this.dateFilter;
+    const startDate = this.startDate;
+    const endDate = this.endDate;
 
     if (!trips) {
-      this.filteredResultsChanged(this.filteredIds); // DEV
-      return;
-    }
-
-    if (term === "") {
-      this.filteredIds = trips.map(t => t.id);
       this.filteredResultsChanged(this.filteredIds); // DEV
       return;
     }
@@ -157,8 +166,14 @@ export class SearchBarComponent {
       const titleMatch = term ? (t.title || '').toLowerCase().includes(term) : true;
       const originMatch = origin ? (t.origin || '').toLowerCase().includes(origin) : true;
       const destMatch = destination ? (t.destination || '').toLowerCase().includes(destination) : true;
-      const dateMatch = date ? (t.date ? t.date.startsWith(date) : false) : true;
-      return titleMatch && originMatch && destMatch && dateMatch;
+      // Date logic
+      const start = startDate ? new Date(startDate) : new Date(-8640000000000000);
+      const end   = endDate   ? new Date(endDate)   : new Date(8640000000000000);
+      const tripStart = t.startDate ? new Date(t.startDate) : new Date(-8640000000000000);
+      const tripEnd   = t.endDate   ? new Date(t.endDate)   : new Date(8640000000000000);
+
+      const dateInRange = tripStart <= end && tripEnd >= start;
+      return titleMatch && originMatch && destMatch && dateInRange;
     });
 
     this.filteredIds = matches.map(m => m.id);
