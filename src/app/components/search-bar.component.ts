@@ -53,11 +53,11 @@ import { MatNativeDateModule } from '@angular/material/core';
         </mat-form-field>
 
         <!-- Date -->
-        <mat-form-field appearance="outline" class="small">
+        <mat-form-field appearance="outline" class="large">
           <mat-label>Date Range</mat-label>
 
           <mat-date-range-input [rangePicker]="picker">
-            <input matStartDate placeholder="Start Date" [(ngModel)]="startDate" (ngModelChange)="applyFilters()">
+            <input  matStartDate placeholder="Start Date" [(ngModel)]="startDate" (ngModelChange)="applyFilters()">
             <input matEndDate placeholder="End Date" [(ngModel)]="endDate" (ngModelChange)="applyFilters()">
           </mat-date-range-input>
 
@@ -112,7 +112,7 @@ import { MatNativeDateModule } from '@angular/material/core';
       gap: 12px;
       align-items: center;
     }
-
+    
     .wide {
       flex: 1 1 320px;
       min-width: 300px;

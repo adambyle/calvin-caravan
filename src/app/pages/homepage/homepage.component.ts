@@ -37,7 +37,6 @@ import { Trip } from '../../models/Trip';
     
     <div class="container">
       <app-top-filter-bar (selectedFilter)="onSelectedFilterTagChange($event)" class="filter-toolbar"></app-top-filter-bar>
-      <p>{{selectedFilter()}}</p>
       <!-- TODO: Remove dummy data DEVTRIP when we are successfully fetching from Firebase -->
       <app-search-bar [allTrips]="allTrips"(capturedFilteredIds)="onFilteredIdsChange($event)"></app-search-bar>
       <!-- <p>DEV OUTPUT from searchbar: {{ searchBarOutput().join(', ') }}</p> -->
