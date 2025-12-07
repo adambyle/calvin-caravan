@@ -5,6 +5,9 @@ import { RouterLink } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { TopFilterBarComponent } from '../../components/top-filter-bar.component';
+import { SearchBarComponent } from '../../components/search-bar.component';
+import { TripListComponent } from '../../components/trip-list.component';
 
 @Component({
   selector: 'app-homepage',
@@ -14,7 +17,10 @@ import { MatIconModule } from '@angular/material/icon';
     RouterLink,
     MatToolbarModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    TopFilterBarComponent,
+    SearchBarComponent,
+    TripListComponent
   ],
   template: `
     <mat-toolbar color="primary">
@@ -30,30 +36,9 @@ import { MatIconModule } from '@angular/material/icon';
     </mat-toolbar>
 
     <div class="container">
-      <!-- Top Filter Bar Component Stub -->
-      <div class="filter-bar-stub">
-        <p>TopFilterBar Component - Filters will go here</p>
-      </div>
-
-      <!-- Search Bar Component Stub -->
-      <div class="search-bar-stub">
-        <p>SearchBar Component - Search functionality will go here</p>
-      </div>
-
-      <!-- Trip List -->
-      <div class="trip-list">
-        <h2>Upcoming Trips</h2>
-        <!-- TripListItem Component Stub (repeated) -->
-        <div class="trip-item-stub">
-          <p>TripListItem Component - Trip details will display here</p>
-        </div>
-        <div class="trip-item-stub">
-          <p>TripListItem Component - Trip details will display here</p>
-        </div>
-        <div class="trip-item-stub">
-          <p>TripListItem Component - Trip details will display here</p>
-        </div>
-      </div>
+      <app-top-filter-bar></app-top-filter-bar>
+      <app-search-bar></app-search-bar>
+      <app-trip-list></app-trip-list>
     </div>
   `,
   styles: [`
