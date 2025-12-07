@@ -13,7 +13,6 @@ import { Trip } from '../models/Trip';
       @if(trips()) {
       <div class="results">
           @for(i of trips(); track $index) {
-            <!-- Turn later into <app-trip-list-item></app-trip-list-item> -->
             <app-trip-list-item [trip]="i"></app-trip-list-item>
           }
       </div>

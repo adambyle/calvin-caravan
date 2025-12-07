@@ -1,8 +1,6 @@
 import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
-// Angular Material
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
@@ -144,8 +142,8 @@ export class SearchBarComponent {
   ngOnInit() {
     this.applyFilters();
   }
-  filteredResultsChanged(trips: string[]) {    // called from mat-slider (change) event.
-    this.capturedFilteredIds.emit(trips);   // or event.target.value?
+  filteredResultsChanged(trips: string[]) {
+    this.capturedFilteredIds.emit(trips);
   }
 
   applyFilters() {
@@ -157,7 +155,7 @@ export class SearchBarComponent {
     const endDate = this.endDate;
 
     if (!trips) {
-      this.filteredResultsChanged(this.filteredIds); // DEV
+      this.filteredResultsChanged(this.filteredIds);
       return;
     }
 

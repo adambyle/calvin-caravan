@@ -9,8 +9,6 @@ import { TopFilterBarComponent } from '../../components/top-filter-bar.component
 import { SearchBarComponent } from '../../components/search-bar.component';
 import { TripListComponent } from '../../components/trip-list.component';
 import { Trip } from '../../models/Trip';
-import { documentId } from '@angular/fire/firestore';
-import { T } from '@angular/cdk/keycodes';
 @Component({
   selector: 'app-homepage',
   standalone: true,
@@ -117,14 +115,14 @@ export class HomepageComponent {
       visibility: true
     };
 
-    // destructure only the Trip fields
+    // DEV destructure only the Trip fields
     const { document_id: id, title: title, primaryLocation: destination, startDate: startDate, origin: origin, endDate: endDate, tags: tags } = fullTrip;
 
     return { id, title, destination, startDate, endDate, origin, tags };
   })();
 
   onFilteredIdsChange(event: string[]) {
-    this.searchBarOutput.set(event);  // update signal with emitted value
+    this.searchBarOutput.set(event);
     this.applyFilters();
   }
 
@@ -139,7 +137,7 @@ export class HomepageComponent {
   }
   
   onSelectedFilterTagChange(event: string) {
-    this.selectedFilter.set(event);  // update signal with emitted value
+    this.selectedFilter.set(event);
     this.applyFilters();
   }
 
