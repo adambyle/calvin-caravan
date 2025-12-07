@@ -10,6 +10,7 @@ import { SearchBarComponent } from '../../components/search-bar.component';
 import { TripListComponent } from '../../components/trip-list.component';
 import { Trip } from '../../models/Trip';
 import { documentId } from '@angular/fire/firestore';
+import { T } from '@angular/cdk/keycodes';
 @Component({
   selector: 'app-homepage',
   standalone: true,
@@ -117,18 +118,29 @@ export class HomepageComponent {
     };
 
     // destructure only the Trip fields
-    const { document_id: id, title: title, primaryLocation: destination, startDate: startDate, origin: origin, endDate: endDate } = fullTrip;
+    const { document_id: id, title: title, primaryLocation: destination, startDate: startDate, origin: origin, endDate: endDate, tags: tags } = fullTrip;
 
-    return { id, title, destination, startDate, endDate, origin };
+    return { id, title, destination, startDate, endDate, origin, tags };
   })();
 
   onFilteredIdsChange(event: string[]) {
     this.searchBarOutput.set(event);  // update signal with emitted value
-    this.filteredTrips = this.allTrips.filter(trip => this.searchBarOutput().includes(trip.id));
+    this.applyFilters();
+  }
+
+  applyFilters() {
+      if (this.selectedFilter() !== "any")
+      {
+        this.filteredTrips = this.allTrips.filter(trip => this.searchBarOutput().includes(trip.id) && trip.tags.includes(this.selectedFilter()));
+      }
+      else {
+        this.filteredTrips = this.allTrips.filter(trip => this.searchBarOutput().includes(trip.id));
+    }
   }
   
   onSelectedFilterTagChange(event: string) {
     this.selectedFilter.set(event);  // update signal with emitted value
+    this.applyFilters();
   }
 
   DEVTRIP2 = { ...this.DEVTRIP1, id: "TRIP2", title: "Spring Break Getaway to Brazil" };

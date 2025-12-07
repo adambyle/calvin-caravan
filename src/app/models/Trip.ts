@@ -6,5 +6,5 @@ export interface Trip {
   destination?: string;
   startDate?: string;  // ISO string or similar
   endDate?: string;  // ISO string or similar
-
+  tags: string[];
 }

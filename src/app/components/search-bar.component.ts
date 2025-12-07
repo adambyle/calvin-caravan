@@ -10,7 +10,6 @@ import { Trip } from '../models/Trip';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 
-
 // Usage: <search-bar.component [trips]="Trips[]"></demo-list>
 
 @Component({
