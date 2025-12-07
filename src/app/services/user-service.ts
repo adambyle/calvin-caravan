@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
-import { Timestamp, Firestore, collection, query, collectionData, addDoc, deleteDoc, doc } from '@angular/fire/firestore';
+import { Firestore, collection, query, collectionData, addDoc, deleteDoc, doc } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import { Trip } from './trip-service';
+import { User } from '../models/User';
 
 @Injectable({
   providedIn: 'root',
@@ -29,14 +29,4 @@ export class UserService {
   deleteUser = async (docID: string) => {
     await deleteDoc(doc(this.firestore, 'users', docID));
   };
-}
-
-export interface User {
-  docID?: string;
-  displayName: string;
-  email: string;
-  password: string;
-  favoriteTrips?: Trip[];
-  signedUp?: Trip[];
-  ownedTrips?: Trip[];
 }

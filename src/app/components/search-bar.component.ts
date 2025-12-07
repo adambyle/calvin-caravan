@@ -38,19 +38,19 @@ import { MatNativeDateModule } from '@angular/material/core';
 
         <!-- Origin -->
         <mat-form-field appearance="outline" class="small">
-          <mat-label>Origin</mat-label>
+          <mat-label>Location</mat-label>
           <input matInput
-                 [(ngModel)]="originFilter"
+                 [(ngModel)]="locationFilter"
                  (ngModelChange)="applyFilters()" />
         </mat-form-field>
 
         <!-- Destination -->
-        <mat-form-field appearance="outline" class="small">
+        <!-- <mat-form-field appearance="outline" class="small">
           <mat-label>Destination</mat-label>
           <input matInput
                  [(ngModel)]="destinationFilter"
                  (ngModelChange)="applyFilters()" />
-        </mat-form-field>
+        </mat-form-field> -->
 
         <!-- Date -->
         <mat-form-field appearance="outline" class="large">
@@ -130,8 +130,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 export class SearchBarComponent {
   // UI-bound fields
   searchTerm = '';
-  originFilter = '';
-  destinationFilter = '';
+  locationFilter = '';
   startDate = new Date();
   endDate = new Date();
 
@@ -149,8 +148,7 @@ export class SearchBarComponent {
   applyFilters() {
     const trips: Trip[] | undefined = this.allTrips();
     const term = this.searchTerm.trim().toLowerCase();
-    const origin = this.originFilter.trim().toLowerCase();
-    const destination = this.destinationFilter.trim().toLowerCase();
+    const location = this.locationFilter.trim().toLowerCase();
     const startDate = this.startDate;
     const endDate = this.endDate;
 
@@ -161,19 +159,18 @@ export class SearchBarComponent {
 
     const matches = trips.filter(t => {
       const titleMatch = term ? (t.title || '').toLowerCase().includes(term) : true;
-      const originMatch = origin ? (t.origin || '').toLowerCase().includes(origin) : true;
-      const destMatch = destination ? (t.destination || '').toLowerCase().includes(destination) : true;
+      const locationMatch = t.primaryLocation ? (t.primaryLocation || '').toLowerCase().includes(location) : true;
       // Date logic
       const start = startDate ? new Date(startDate) : new Date(-8640000000000000);
       const end   = endDate   ? new Date(endDate)   : new Date(8640000000000000);
-      const tripStart = t.startDate ? new Date(t.startDate) : new Date(-8640000000000000);
-      const tripEnd   = t.endDate   ? new Date(t.endDate)   : new Date(8640000000000000);
+      const tripStart = t.startDate ? t.startDate.toDate() : new Date(-8640000000000000);
+      const tripEnd   = t.endDate   ? t.endDate.toDate()   : new Date(8640000000000000);
 
       const dateInRange = tripStart <= end && tripEnd >= start;
-      return titleMatch && originMatch && destMatch && dateInRange;
+      return titleMatch && locationMatch && dateInRange;
     });
 
-    this.filteredIds = matches.map(m => m.id);
+  this.filteredIds = matches.filter(m => m.docID).map(m => m.docID!);
     this.filteredResultsChanged(this.filteredIds);
   }
 }

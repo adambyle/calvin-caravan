@@ -15,37 +15,48 @@ import { MatIconModule } from '@angular/material/icon';
     MatIconModule
   ],
   template: `
-    <mat-card class="trip-card" appearance="outlined">
-      <div class="trip-content">
-        
-        <!-- Left: Trip details -->
-        <div class="trip-info">
-          <h3 class="trip-title">{{ trip()?.title || 'Untitled Trip' }}</h3>
-          <p class="trip-route">
-            {{ trip()?.origin || 'Unknown' }} → {{ trip()?.destination || 'Unknown' }}
-          </p>
-          <div class="trip-date">
-            <div>
-            Start Date: {{ trip()?.startDate | date:'mediumDate' }}
-            </div>
-            <div>
-            End Date: {{ trip()?.endDate | date:'mediumDate' }}
-          </div>
-          </div>
-        </div>
+<mat-card class="trip-card" appearance="outlined">
+<mat-card class="trip-card" appearance="outlined">
 
-        <!-- Right: Action buttons -->
-        <div class="actions">
-          <button mat-icon-button color="primary" (click)="onFavorite()">
-            <mat-icon>star</mat-icon>
-          </button>
-
-          <button mat-raised-button color="accent" (click)="onCommit()">
-            Commit
-          </button>
-        </div>
+  <!-- HEADER -->
+  <div class="header-row">
+      <h3 class="trip-title">{{ trip()?.title || 'Untitled Trip' }}</h3>
+      <div class="header-actions">
+        <button mat-icon-button color="primary" (click)="onFavorite()">
+          <mat-icon>star</mat-icon>
+        </button>
+        <button mat-raised-button color="accent" (click)="onCommit()">
+          Commit
+        </button>
       </div>
-    </mat-card>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content-row">
+
+    <img 
+      class="trip-image" 
+      [src]="trip()?.headerImage" 
+      alt="Trip Image"
+    />
+
+    <div class="description">
+      <p>{{ trip()?.description || 'No description available.' }}</p>
+    </div>
+
+  </div>
+
+  <!-- IMPORTANT FACTS -->
+  <div class="facts-row">
+    <div><strong>Location:</strong> {{ trip()?.primaryLocation || 'Unknown' }}</div>
+    <div><strong>Start Date:</strong> {{ trip()?.startDate?.toDate() | date:'mediumDate' }}</div>
+    <div><strong>End Date:</strong> {{ trip()?.endDate?.toDate() | date:'mediumDate' }}</div>
+  </div>
+
+</mat-card>
+
+
+
   `,
   styles: [`
     .trip-card {
@@ -65,11 +76,36 @@ import { MatIconModule } from '@angular/material/icon';
       gap: 4px;
     }
 
+    .content-row {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
     .trip-title {
       margin: 0;
       font-weight: 600;
       font-size: 18px;
     }
+
+    .trip-image {
+    max-width: 260px;
+    max-height: 260px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin: 6px 0;
+  }
 
     .trip-route, .trip-date {
       margin: 0;
