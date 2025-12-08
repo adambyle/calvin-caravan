@@ -2,6 +2,8 @@ import { Injectable, inject } from '@angular/core';
 import { Timestamp, Firestore, collection, collectionData, query, addDoc, deleteDoc, doc } from '@angular/fire/firestore';
 import { Observable, combineLatest } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+import { Message } from '../models/Message';
+import { CommentSection } from '../models/CommentSection';
 
 @Injectable({
   providedIn: 'root',
@@ -50,17 +52,4 @@ export class CommentsService {
   deleteMessage = async (docID: string, convoID: string) => {
     await deleteDoc(doc(this.firestore, `conversations/${convoID}/messages`, docID));
   };
-}
-
-export interface CommentSection {
-  docID?: string;
-  tripID: string;
-  messages: Message[];
-}
-
-export interface Message {
-  docID?: string;
-  message: string;
-  user_id: string;
-  timestamp: Timestamp;
 }

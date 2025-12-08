@@ -1,5 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { Timestamp, Firestore, collection, query, collectionData, orderBy, addDoc, deleteDoc, doc } from '@angular/fire/firestore';
+import { Trip } from '../models/Trip'
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -46,23 +47,24 @@ export class TripService {
   };
 }
 
-export interface Trip {
-  docID?: string;
-  owner_id: string;
-  title: string;
-  tags: string[];
-  requirements: string;
-  startDate: Timestamp;
-  endDate: Timestamp;
-  postedDate: Timestamp;
-  price: number;
-  maxCapacity: number;
-  currentCapacity: number;
-  description: string;
-  primaryLocation: string;
-  relatedLinks: string[];
-  headerImage: string;
-  meetingInfo: string;
-  status: string;
-  visibility: boolean;
-}
+// // Moved to models
+// export interface Trip {
+//   docID?: string;
+//   owner_id: string;
+//   title: string;
+//   tags: string[];
+//   requirements: string;
+//   startDate: Timestamp;
+//   endDate: Timestamp;
+//   postedDate: Timestamp;
+//   price: number;
+//   maxCapacity: number;
+//   currentCapacity: number;
+//   description: string;
+//   primaryLocation: string;
+//   relatedLinks: string[];
+//   headerImage: string;
+//   meetingInfo: string;
+//   status: string;
+//   visibility: boolean;
+// }

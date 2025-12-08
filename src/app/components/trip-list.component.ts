@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TripListItemComponent } from './trip-list-item.component';
+import { Trip } from '../models/Trip';
 
 @Component({
   selector: 'app-trip-list',
@@ -9,9 +10,18 @@ import { TripListItemComponent } from './trip-list-item.component';
   template: `
     <div class="trip-list">
       <h2>Upcoming Trips</h2>
-      <app-trip-list-item></app-trip-list-item>
-      <app-trip-list-item></app-trip-list-item>
-      <app-trip-list-item></app-trip-list-item>
+      @if(trips()) {
+      <div class="results">
+        @for(i of trips(); track $index) {
+          <app-trip-list-item [trip]="i"></app-trip-list-item>
+          <!-- DEV to see the dates {{i.startDate.toDate().toDateString()}} end {{i.endDate.toDate().toDateString()}} -->
+           <!-- DEV to see the attributes of selected trips -->
+          <!-- <pre>
+              {{ i | json}}
+          </pre> -->
+          }
+      </div>
+      }
     </div>
   `,
   styles: [`
@@ -21,4 +31,6 @@ import { TripListItemComponent } from './trip-list-item.component';
     }
   `]
 })
-export class TripListComponent {}
+export class TripListComponent {
+  trips = input<Trip[]>();
+}

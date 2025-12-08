@@ -1,25 +1,36 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-top-filter-bar',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MatTabsModule],
   template: `
-    <div class="filter-bar-stub">
-      <p>TopFilterBar Component - Filters will go here</p>
-    </div>
+    <mat-tab-group [(selectedIndex)]="selectedTabIndex" (selectedIndexChange)="onSelectedTabChange()">
+      <mat-tab label="Any Trip"></mat-tab>
+      <mat-tab label="Wilderness"></mat-tab>
+      <mat-tab label="Spring Break"></mat-tab>
+      <mat-tab label="Study Abroad"></mat-tab>
+      <mat-tab label="Student Led"></mat-tab>
+    </mat-tab-group>
   `,
   styles: [`
-    .filter-bar-stub {
-      border: 2px dashed #ccc;
-      padding: 20px;
-      margin: 16px 0;
-      border-radius: 4px;
-      background-color: #f5f5f5;
-      text-align: center;
-      color: #666;
+    .active-tags {
+      margin-top: 8px;
+      font-size: 14px;
+      font-weight: 500;
     }
   `]
 })
-export class TopFilterBarComponent {}
+export class TopFilterBarComponent {
+  selectedFilter = output<string>();
+  selectedTabIndex = 0;
+  tabLabels = ['any', 'wilderness', 'Spring Break', 'Study Abroad', 'Student Led'];
+  onSelectedTabChange = () => {
+    this.selectedFilter.emit(this.tabLabels[this.selectedTabIndex]);
+  }
+    ngOnInit() {
+    this.onSelectedTabChange();
+  }
+}

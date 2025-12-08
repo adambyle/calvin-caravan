@@ -1,129 +1,176 @@
-import { Component, EventEmitter, Output, OnDestroy } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { Subject, Subscription } from 'rxjs';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { Trip } from '../models/Trip'; 
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
-interface Trip {
-  id: string;
-  title?: string;
-  origin?: string;
-  destination?: string;
-  date?: string; // ISO date string or similar
-}
+// Usage: <search-bar.component [trips]="Trips[]"></demo-list>
 
 @Component({
   selector: 'app-search-bar',
   standalone: true,
-  imports: [CommonModule, FormsModule, HttpClientModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    MatDatepickerModule,
+    MatNativeDateModule
+  ],
   template: `
     <div class="search-bar">
+
       <div class="controls">
-        <input placeholder="Search trips (title, origin, destination)"
-               [(ngModel)]="searchTerm"
-               (ngModelChange)="onInputChange($event)"
-               class="search-input" />
 
-        <input placeholder="Origin" [(ngModel)]="originFilter" (ngModelChange)="onInputChange($event)" class="small-input" />
-        <input placeholder="Destination" [(ngModel)]="destinationFilter" (ngModelChange)="onInputChange($event)" class="small-input" />
-        <input type="date" [(ngModel)]="dateFilter" (ngModelChange)="onInputChange($event)" class="small-input" />
+        <!-- Search -->
+        <mat-form-field appearance="outline" class="wide">
+          <mat-label>Search trips</mat-label>
+          <input matInput placeholder="title, origin, destination"
+                 [(ngModel)]="searchTerm"
+                 (ngModelChange)="applyFilters()" />
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+
+        <!-- Origin -->
+        <mat-form-field appearance="outline" class="small">
+          <mat-label>Location</mat-label>
+          <input matInput
+                 [(ngModel)]="locationFilter"
+                 (ngModelChange)="applyFilters()" />
+        </mat-form-field>
+
+        <!-- Destination -->
+        <!-- <mat-form-field appearance="outline" class="small">
+          <mat-label>Destination</mat-label>
+          <input matInput
+                 [(ngModel)]="destinationFilter"
+                 (ngModelChange)="applyFilters()" />
+        </mat-form-field> -->
+
+        <!-- Date -->
+        <mat-form-field appearance="outline" class="large">
+          <mat-label>Date Range</mat-label>
+
+          <mat-date-range-input [rangePicker]="picker">
+            <input  matStartDate placeholder="Start Date" [(ngModel)]="startDate" (ngModelChange)="applyFilters()">
+            <input matEndDate placeholder="End Date" [(ngModel)]="endDate" (ngModelChange)="applyFilters()">
+          </mat-date-range-input>
+
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
       </div>
 
-      <div class="results">
-        <p class="result-count">Results: {{ filteredIds.length }}</p>
-        <!-- Optional: show a short preview of matching trips (ids + title) -->
-        <ul *ngIf="previewTrips.length">
-          <li *ngFor="let t of previewTrips">{{ t.id }} - {{ t.title || (t.origin + ' → ' + t.destination) }}</li>
-        </ul>
-      </div>
+      <!-- <div class="dev">
+        <div class ="held-trips-in-component">
+            <p class="result-count">DEV Held Trips in component in search bar: {{ allTrips()?.length }}</p>
+          @if(allTrips()) {
+            <ul>
+              @for(t of allTrips(); track t.id) {
+              <li>ID {{$index}}:{{t.id}} Title: {{t.title}}</li>
+              }
+            </ul>
+          }
+
+          <p class="result-count">DEV Filtered Results in search bar (search bar gives just the ids): {{ filteredIds.length }}</p>
+          @if(filteredIds.length) {
+          <ul>
+            @for(i of filteredIds; track $index) {
+              <li>ID {{$index}}:{{i}}</li>
+            }
+          </ul>
+
+          }
+        </div>
+
+      <div>
+        <p>DEV:</p>
+        <p>{{ searchTerm }}, {{ originFilter }}, {{ destinationFilter }}, {{ dateFilter }}</p>
+      </div> -->
     </div>
   `,
   styles: [`
-    .search-bar { margin: 16px 0; }
-    .controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-    .search-input { flex: 1 1 320px; padding: 8px; }
-    .small-input { width: 160px; padding: 8px; }
-    .results { margin-top: 12px; }
-    .result-count { font-weight: 600; }
+    .search-bar {
+      margin: 16px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .dev {
+      background-color: #c6cc75ff;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+    
+    .wide {
+      flex: 1 1 320px;
+      min-width: 300px;
+    }
+
+    .small {
+      width: 180px;
+    }
+
+    .result-count {
+      font-weight: 600;
+    }
   `]
 })
-export class SearchBarComponent implements OnDestroy {
-  @Output() filtered = new EventEmitter<string[]>();
-
-  // UI-bound
+export class SearchBarComponent {
+  // UI-bound fields
   searchTerm = '';
-  originFilter = '';
-  destinationFilter = '';
-  dateFilter = '';
+  locationFilter = '';
+  startDate = new Date();
+  endDate = new Date();
 
-  // Internal data
-  private allTrips: Trip[] = [];
+  allTrips = input<Trip[]>();
+  capturedFilteredIds = output<string[]>();
   filteredIds: string[] = [];
-  previewTrips: Trip[] = [];
 
-  private input$ = new Subject<void>();
-  private subs = new Subscription();
-
-  constructor(private http: HttpClient) {
-    // Debounce user input and apply filters
-    this.subs.add(
-      this.input$.pipe(
-        debounceTime(250),
-        distinctUntilChanged(),
-      ).subscribe(() => this.applyFilters())
-    );
-
-    // Initial load of trips from backend
-    this.loadTrips();
+  ngOnInit() {
+    this.applyFilters();
+  }
+  filteredResultsChanged(trips: string[]) {
+    this.capturedFilteredIds.emit(trips);
   }
 
-  ngOnDestroy(): void {
-    this.subs.unsubscribe();
-  }
-
-  onInputChange(_: any) {
-    // push an event into the debounced pipeline
-    this.input$.next();
-  }
-
-  private loadTrips() {
-    // Fetch all trips once; frontend will filter results.
-    // Endpoint: GET /trips (relative to app origin)
-    this.http.get<Trip[]>('/trips').subscribe({
-      next: (list) => {
-        this.allTrips = list || [];
-        this.applyFilters();
-      },
-      error: (err) => {
-        // For now, keep empty and log to console
-        console.error('Failed to load trips from /trips', err);
-        this.allTrips = [];
-        this.applyFilters();
-      }
-    });
-  }
-
-  private applyFilters() {
+  applyFilters() {
+    const trips: Trip[] | undefined = this.allTrips();
     const term = this.searchTerm.trim().toLowerCase();
-    const origin = this.originFilter.trim().toLowerCase();
-    const destination = this.destinationFilter.trim().toLowerCase();
-    const date = this.dateFilter; // keep as-is for exact match
+    const location = this.locationFilter.trim().toLowerCase();
+    const startDate = this.startDate;
+    const endDate = this.endDate;
 
-    const matches = this.allTrips.filter(t => {
-      // Search term matches title/origin/destination
+    if (!trips) {
+      this.filteredResultsChanged(this.filteredIds);
+      return;
+    }
+
+    const matches = trips.filter(t => {
       const titleMatch = term ? (t.title || '').toLowerCase().includes(term) : true;
-      const originMatch = origin ? (t.origin || '').toLowerCase().includes(origin) : true;
-      const destMatch = destination ? (t.destination || '').toLowerCase().includes(destination) : true;
-      const dateMatch = date ? (t.date ? t.date.startsWith(date) : false) : true;
+      const locationMatch = t.primaryLocation ? (t.primaryLocation || '').toLowerCase().includes(location) : true;
+      // Date logic
+      const start = startDate ? new Date(startDate) : new Date(-8640000000000000);
+      const end   = endDate   ? new Date(endDate)   : new Date(8640000000000000);
+      const tripStart = t.startDate ? t.startDate.toDate() : new Date(-8640000000000000);
+      const tripEnd   = t.endDate   ? t.endDate.toDate()   : new Date(8640000000000000);
 
-      return titleMatch && originMatch && destMatch && dateMatch;
+      const dateInRange = tripStart <= end && tripEnd >= start;
+      return titleMatch && locationMatch && dateInRange;
     });
 
-    this.filteredIds = matches.map(m => m.id);
-    this.previewTrips = matches.slice(0, 10);
-
-    // Emit ids so parent components can react
-    this.filtered.emit(this.filteredIds);
+  this.filteredIds = matches.filter(m => m.docID).map(m => m.docID!);
+    this.filteredResultsChanged(this.filteredIds);
   }
 }
