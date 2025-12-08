@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input, output, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -132,15 +132,18 @@ export class SearchBarComponent {
   searchTerm = '';
   locationFilter = '';
   startDate = new Date();
-  endDate = new Date();
+  endDate: Date | null= null;
 
   allTrips = input<Trip[]>();
   capturedFilteredIds = output<string[]>();
   filteredIds: string[] = [];
 
-  ngOnInit() {
-    this.applyFilters();
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['allTrips']) {
+      this.applyFilters();
+    }
   }
+
   filteredResultsChanged(trips: string[]) {
     this.capturedFilteredIds.emit(trips);
   }
