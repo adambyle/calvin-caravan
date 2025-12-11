@@ -30,7 +30,7 @@ import { MatNativeDateModule } from '@angular/material/core';
         <!-- Search -->
         <mat-form-field appearance="outline" class="wide">
           <mat-label>Search trips</mat-label>
-          <input matInput placeholder="title, origin, destination"
+          <input matInput placeholder="Trip title"
                  [(ngModel)]="searchTerm"
                  (ngModelChange)="applyFilters()" />
           <mat-icon matSuffix>search</mat-icon>
