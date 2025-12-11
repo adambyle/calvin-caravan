@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Firestore, collection, query, collectionData, addDoc, deleteDoc, doc } from '@angular/fire/firestore';
+import { Firestore, collection, query, collectionData, addDoc, deleteDoc, doc, updateDoc } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { User } from '../models/User';
 
@@ -29,4 +29,8 @@ export class UserService {
   deleteUser = async (docID: string) => {
     await deleteDoc(doc(this.firestore, 'users', docID));
   };
+
+  updateUser = async (docID: string, userData: Partial<User>) => {
+    await updateDoc(doc(this.firestore, 'users', docID), userData);
+  }
 }
