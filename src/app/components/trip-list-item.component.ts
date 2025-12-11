@@ -1,10 +1,12 @@
-import { Component, input } from '@angular/core';
+import { Component, inject, input, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Trip } from '../models/Trip';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
+import { UserService } from '../services/user-service';
+import { User } from '../models/User';
 
 @Component({
   selector: 'app-trip-list-item',
@@ -33,14 +35,30 @@ import { RouterLink } from '@angular/router';
     </div>
     <div class="header-right">
       <p class="posted-date">Posted: {{ trip()?.postedDate?.toDate() | date:'mediumDate' }}</p>
-      <div class="header-actions">
-        <button mat-icon-button color="primary" (click)="onFavorite()">
-          <mat-icon>star</mat-icon>
-        </button>
-        <button mat-raised-button color="accent" (click)="onCommit()">
-          Commit
-        </button>
-      </div>
+      @if (currentUser()) {
+        <div class="header-actions">
+          <button
+            mat-icon-button
+            (click)="onFavorite()"
+            [ngClass]="{ 'favorite-active': isFavorite() }"
+          >
+            <mat-icon>star</mat-icon>
+          </button>
+
+          <button
+            mat-raised-button
+            color="accent"
+            (click)="onCommit()"
+            [ngClass]="{ 'commit-active': isCommitted() }"
+          >
+            @if (isCommitted()) {
+              Committed!
+            } @else {
+              Commit
+            }
+          </button>
+        </div>
+      }
     </div>
   </div>
 
@@ -174,16 +192,88 @@ import { RouterLink } from '@angular/router';
       font-size: 14px;
       line-height: 1.5;
     }
+    
+    .favorite-active mat-icon {
+      color: gold;
+    }
+
+    .commit-active {
+      background-color: #4caf50;
+      color: white;
+    }
   `]
 })
-export class TripListItemComponent {
+export class TripListItemComponent implements OnInit {
   trip = input<Trip>();
+  currentUser = signal<User | null>(null);
+  userService = inject(UserService);
+  isFavorite = signal<boolean>(false);
+  isCommitted = signal<boolean>(false);
+
+  ngOnInit() {
+    // Load current user from localStorage
+    const currentUserId = localStorage.getItem('currentUserId');
+
+    if (currentUserId) {
+      // Subscribe to users and find the current user
+      this.userService.users$.subscribe(users => {
+        const user = users.find(u => u.docID === currentUserId);
+        if (user) {
+          this.currentUser.set(user);
+          if (user.favoriteTrips?.some(trip => trip.docID == this.trip()?.docID)) {
+            this.isFavorite.set(true);
+          }
+          if (user.signedUp?.some(trip => trip.docID == this.trip()?.docID)) {
+            this.isCommitted.set(true);
+          }
+        }
+      });
+    }
+  }
 
   onFavorite() {
-    console.log('Favorite clicked for trip:', this.trip());
+    const user = this.currentUser();
+    if (!user) {
+      return;
+    }
+
+    const newIsFavorite = !this.isFavorite();
+    this.isFavorite.set(newIsFavorite);
+
+    const trip = this.trip()!;
+    const favorites = user.favoriteTrips ?? [];
+
+    if (newIsFavorite) {
+      this.userService.updateUser(user.docID!, {
+        favoriteTrips: [...favorites, trip],
+      });
+    } else {
+      this.userService.updateUser(user.docID!, {
+        favoriteTrips: favorites.filter(t => t.docID !== trip.docID),
+      });
+    }
   }
 
   onCommit() {
-    console.log('Commit clicked for trip:', this.trip());
+    const user = this.currentUser();
+    if (!user) {
+      return;
+    }
+
+    const newIsCommitted = !this.isCommitted();
+    this.isCommitted.set(newIsCommitted);
+
+    const trip = this.trip()!;
+    const signedUp = user.signedUp ?? [];
+
+    if (newIsCommitted) {
+      this.userService.updateUser(user.docID!, {
+        signedUp: [...signedUp, trip],
+      });
+    } else {
+      this.userService.updateUser(user.docID!, {
+        signedUp: signedUp.filter(t => t.docID !== trip.docID),
+      });
+    }
   }
 }

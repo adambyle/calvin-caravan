@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Timestamp, Firestore, collection, query, collectionData, orderBy, addDoc, deleteDoc, doc } from '@angular/fire/firestore';
+import { Timestamp, Firestore, collection, query, collectionData, orderBy, addDoc, deleteDoc, doc, updateDoc } from '@angular/fire/firestore';
 import { Trip } from '../models/Trip'
 import { Observable } from 'rxjs';
 
@@ -17,7 +17,7 @@ export class TripService {
     this.trips$ = collectionData(q, { idField: 'docID' }) as Observable<Trip[]>;
   }
 
-  submitNewTrip = async (ownerID: string, title: string, tags: string[], requirements: string, startDate: Timestamp, 
+  submitNewTrip = async (ownerID: string, title: string, tags: string[], requirements: string, startDate: Timestamp,
     endDate: Timestamp, price: number, maxCapacity: number, currentCapacity: number, description: string,
     primaryLocation: string, relatedLinks: string[], headerImage: string, meetingInfo: string, status: string, visibility: boolean) => {
     const tripData: Trip = {
@@ -45,6 +45,10 @@ export class TripService {
   deleteTrip = async (docID: string) => {
     await deleteDoc(doc(this.firestore, 'Trips', docID));
   };
+
+  updateTrip = async (docID: string, tripData: Partial<Trip>) => {
+    await updateDoc(doc(this.firestore, 'Trips', docID), tripData);
+  }
 }
 
 // // Moved to models
