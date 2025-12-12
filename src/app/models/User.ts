@@ -4,7 +4,7 @@ export interface User {
   displayName: string;
   email: string;
   password: string;
-  favoriteTrips?: Trip[];
-  signedUp?: Trip[];
-  ownedTrips?: Trip[];
+  favoriteTrips?: string[]; //  for the three following arrays, each string referes to a trip's document ID
+  signedUp?: string[];
+  ownedTrips?: string[];
 }

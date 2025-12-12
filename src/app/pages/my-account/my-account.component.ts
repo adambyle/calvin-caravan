@@ -48,128 +48,111 @@ import { TripService } from '../../services/trip-service';
     </mat-toolbar>
 
     <div class="container">
-      @if (currentUser()) {
-        <!-- UserProfile Component -->
-        <mat-card class="profile-card">
-          <mat-card-header>
-            <mat-card-title>User Profile</mat-card-title>
-          </mat-card-header>
-          <mat-card-content>
-            @if (isEditing()) {
-              <div class="profile-form">
-                <mat-form-field appearance="outline" class="full-width">
-                  <mat-label>Display Name</mat-label>
-                  <input matInput [(ngModel)]="editedUser.displayName" />
-                </mat-form-field>
-
-                <mat-form-field appearance="outline" class="full-width">
-                  <mat-label>Email</mat-label>
-                  <input matInput type="email" [(ngModel)]="editedUser.email" />
-                </mat-form-field>
-
-                <div class="profile-actions">
-                  <button mat-raised-button color="primary" (click)="saveProfile()">
-                    Save Changes
-                  </button>
-                  <button mat-button (click)="cancelEdit()">
-                    Cancel
-                  </button>
-                </div>
-              </div>
-            } @else {
-              <div class="profile-display">
-                <div class="profile-field">
-                  <strong>Display Name:</strong> {{ currentUser()?.displayName }}
-                </div>
-                <div class="profile-field">
-                  <strong>Email:</strong> {{ currentUser()?.email }}
-                </div>
-                <button mat-raised-button color="primary" (click)="startEdit()">
-                  <mat-icon>edit</mat-icon>
-                  Edit Profile
+      <!-- UserProfile Component -->
+      <mat-card class="profile-card">
+        <mat-card-header>
+          <mat-card-title>User Profile</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          @if (isEditing()) {
+            <div class="profile-form">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Display Name</mat-label>
+                <input matInput [(ngModel)]="editedUser.displayName" />
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Email</mat-label>
+                <input matInput type="email" [(ngModel)]="editedUser.email" />
+              </mat-form-field>
+              <div class="profile-actions">
+                <button mat-raised-button color="primary" (click)="saveProfile()">
+                  Save Changes
+                </button>
+                <button mat-button (click)="cancelEdit()">
+                  Cancel
                 </button>
               </div>
-            }
-          </mat-card-content>
-        </mat-card>
-
-        <!-- Tabs for Favorite Trips, Signed Up Trips, and Owned Trips -->
-        <mat-card>
-          <mat-tab-group>
-            <mat-tab label="Favorite Trips">
-              <div class="tab-content">
-                @if (favoriteTrips().length > 0) {
-                  @for (trip of favoriteTrips(); track trip.docID) {
-                    <app-trip-list-item [trip]="trip"></app-trip-list-item>
-                  }
-                } @else {
-                  <div class="empty-state">
-                    <mat-icon>favorite_border</mat-icon>
-                    <p>No favorite trips yet. Browse trips and click the star to save them!</p>
-                  </div>
-                }
+            </div>
+          } @else {
+            <div class="profile-display">
+              <div class="profile-field">
+                <strong>Display Name:</strong> {{ currentUser()?.displayName }}
               </div>
-            </mat-tab>
-            
-            <mat-tab label="Signed Up">
-              <div class="tab-content">
-                @if (signedUpTrips().length > 0) {
-                  @for (trip of signedUpTrips(); track trip.docID) {
-                    <app-trip-list-item [trip]="trip"></app-trip-list-item>
-                  }
-                } @else {
-                  <div class="empty-state">
-                    <mat-icon>event_available</mat-icon>
-                    <p>No trips signed up for yet. Find a trip and click "Commit" to mark it!</p>
-                  </div>
-                }
+              <div class="profile-field">
+                <strong>Email:</strong> {{ currentUser()?.email }}
               </div>
-            </mat-tab>
-            
-            <mat-tab label="My Trips">
-              <div class="tab-content">
-                @if (ownedTrips().length > 0) {
-                  @for (trip of ownedTrips(); track trip.docID) {
-                    <div class="owned-trip-wrapper">
-                      <app-trip-list-item [trip]="trip"></app-trip-list-item>
-                      <div class="trip-actions">
-                        <button mat-raised-button color="primary" [routerLink]="['/edit-trip', trip.docID]">
-                          <mat-icon>edit</mat-icon>
-                          Edit Trip
-                        </button>
-                        <button mat-raised-button color="warn" (click)="deleteTrip(trip.docID!)">
-                          <mat-icon>delete</mat-icon>
-                          Delete Trip
-                        </button>
-                      </div>
-                    </div>
-                  }
-                } @else {
-                  <div class="empty-state">
-                    <mat-icon>add_circle_outline</mat-icon>
-                    <p>You haven't created any trips yet. Click "Post a Trip" to get started!</p>
-                    <button mat-raised-button color="primary" routerLink="/post-trip">
-                      Post a Trip
-                    </button>
-                  </div>
-                }
-              </div>
-            </mat-tab>
-          </mat-tab-group>
-        </mat-card>
-      } @else {
-        <mat-card class="signin-prompt">
-          <mat-card-content>
-            <div class="empty-state">
-              <mat-icon>account_circle</mat-icon>
-              <p>Please sign in to view your account.</p>
-              <button mat-raised-button color="primary" routerLink="/signin">
-                Sign In
+              <button mat-raised-button color="primary" (click)="startEdit()">
+                <mat-icon>edit</mat-icon>
+                Edit Profile
               </button>
             </div>
-          </mat-card-content>
-        </mat-card>
-      }
+          }
+        </mat-card-content>
+      </mat-card>
+      <!-- Tabs for Favorite Trips, Signed Up Trips, and Owned Trips -->
+      <mat-card>
+        <mat-tab-group>
+          <mat-tab label="Favorite Trips">
+            <div class="tab-content">
+              @if (favoriteTrips().length > 0) {
+                @for (trip of favoriteTrips(); track trip.docID) {
+                  <app-trip-list-item [trip]="trip"></app-trip-list-item>
+                }
+              } @else {
+                <div class="empty-state">
+                  <mat-icon>favorite_border</mat-icon>
+                  <p>No favorite trips yet. Browse trips and click the star to save them!</p>
+                </div>
+              }
+            </div>
+          </mat-tab>
+          
+          <mat-tab label="Signed Up">
+            <div class="tab-content">
+              @if (signedUpTrips().length > 0) {
+                @for (trip of signedUpTrips(); track trip.docID) {
+                  <app-trip-list-item [trip]="trip"></app-trip-list-item>
+                }
+              } @else {
+                <div class="empty-state">
+                  <mat-icon>event_available</mat-icon>
+                  <p>No trips signed up for yet. Find a trip and click "Commit" to mark it!</p>
+                </div>
+              }
+            </div>
+          </mat-tab>
+          
+          <mat-tab label="My Trips">
+            <div class="tab-content">
+              @if (ownedTrips().length > 0) {
+                @for (trip of ownedTrips(); track trip.docID) {
+                  <div class="owned-trip-wrapper">
+                    <app-trip-list-item [trip]="trip"></app-trip-list-item>
+                    <div class="trip-actions">
+                      <button mat-raised-button color="primary" [routerLink]="['/edit-trip', trip.docID]">
+                        <mat-icon>edit</mat-icon>
+                        Edit Trip
+                      </button>
+                      <button mat-raised-button color="warn" (click)="deleteTrip(trip.docID!)">
+                        <mat-icon>delete</mat-icon>
+                        Delete Trip
+                      </button>
+                    </div>
+                  </div>
+                }
+              } @else {
+                <div class="empty-state">
+                  <mat-icon>add_circle_outline</mat-icon>
+                  <p>You haven't created any trips yet. Click "Post a Trip" to get started!</p>
+                  <button mat-raised-button color="primary" routerLink="/post-trip">
+                    Post a Trip
+                  </button>
+                </div>
+              }
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </mat-card>
     </div>
   `,
   styles: [`
@@ -307,13 +290,13 @@ export class MyAccountComponent implements OnInit {
 
     // Load favorite trips
     const favorites = this.allTrips.filter(trip => 
-      user.favoriteTrips?.some(favTrip => favTrip.docID === trip.docID)
+      user.favoriteTrips?.some(favTrip => favTrip === trip.docID)
     );
     this.favoriteTrips.set(favorites);
 
     // Load signed up trips
     const signedUp = this.allTrips.filter(trip => 
-      user.signedUp?.some(signedTrip => signedTrip.docID === trip.docID)
+      user.signedUp?.some(signedTrip => signedTrip === trip.docID)
     );
     this.signedUpTrips.set(signedUp);
 
