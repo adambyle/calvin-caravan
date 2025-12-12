@@ -220,10 +220,10 @@ export class TripListItemComponent implements OnInit {
         const user = users.find(u => u.docID === currentUserId);
         if (user) {
           this.currentUser.set(user);
-          if (user.favoriteTrips?.some(trip => trip.docID == this.trip()?.docID)) {
+          if (user.favoriteTrips?.some(trip => trip == this.trip()?.docID)) {
             this.isFavorite.set(true);
           }
-          if (user.signedUp?.some(trip => trip.docID == this.trip()?.docID)) {
+          if (user.signedUp?.some(trip => trip == this.trip()?.docID)) {
             this.isCommitted.set(true);
           }
         }
@@ -245,11 +245,11 @@ export class TripListItemComponent implements OnInit {
 
     if (newIsFavorite) {
       this.userService.updateUser(user.docID!, {
-        favoriteTrips: [...favorites, trip],
+        favoriteTrips: [...favorites, trip.docID!],
       });
     } else {
       this.userService.updateUser(user.docID!, {
-        favoriteTrips: favorites.filter(t => t.docID !== trip.docID),
+        favoriteTrips: favorites.filter(t => t !== trip.docID),
       });
     }
   }
@@ -268,11 +268,11 @@ export class TripListItemComponent implements OnInit {
 
     if (newIsCommitted) {
       this.userService.updateUser(user.docID!, {
-        signedUp: [...signedUp, trip],
+        signedUp: [...signedUp, trip.docID!],
       });
     } else {
       this.userService.updateUser(user.docID!, {
-        signedUp: signedUp.filter(t => t.docID !== trip.docID),
+        signedUp: signedUp.filter(t => t !== trip.docID),
       });
     }
   }

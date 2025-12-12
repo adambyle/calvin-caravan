@@ -10,7 +10,7 @@ import { SearchBarComponent } from '../../components/search-bar.component';
 import { TripListComponent } from '../../components/trip-list.component';
 import { Trip } from '../../models/Trip';
 import { TripService } from '../../services/trip-service';
-import { Timestamp } from '@angular/fire/firestore';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-homepage',
@@ -24,18 +24,29 @@ import { Timestamp } from '@angular/fire/firestore';
     TopFilterBarComponent,
     SearchBarComponent,
     TripListComponent,
+    MatSnackBarModule,
   ],
   template: `
     <mat-toolbar color="primary">
       <span>Calvin Caravan</span>
       <span class="spacer"></span>
-      <button mat-button routerLink="/post-trip">
-        <mat-icon>add</mat-icon>
-        Post a Trip
-      </button>
-      <button mat-icon-button routerLink="/my-account">
-        <mat-icon>account_circle</mat-icon>
-      </button>
+      @if (currentUser()) {
+        <button mat-button routerLink="/post-trip">
+          <mat-icon>add</mat-icon>
+          Post a Trip
+        </button>
+        <button mat-icon-button routerLink="/my-account">
+          <mat-icon>account_circle</mat-icon>
+        </button>
+      } @else {
+        <button mat-button (click)="promptSignIn()">
+          <mat-icon>add</mat-icon>
+          Post a Trip
+        </button>
+        <button mat-icon-button routerLink="/signin">
+          <mat-icon>account_circle</mat-icon>
+        </button>
+      }
     </mat-toolbar>
     
     <div class="container">
@@ -96,6 +107,14 @@ export class HomepageComponent {
   searchBarOutput = signal<string[]>([""]);
   filteredTrips: Trip[] = [];
 
+  currentUser = signal<string | null>("");
+  allTrips: Trip[] = [];
+
+  constructor(
+    private tripService: TripService,
+    private snackBar: MatSnackBar
+  ) { }
+
   onFilteredIdsChange(event: string[]) {
     this.searchBarOutput.set(event);
     this.applyFilters();
@@ -115,13 +134,17 @@ export class HomepageComponent {
     this.applyFilters();
   }
 
-  allTrips: Trip[] = [];
-
-  constructor(private tripService: TripService) { }
+  promptSignIn() {
+    this.snackBar.open('Please sign in to post a trip', 'Close', {
+      duration: 3000
+    });
+  }
 
   ngOnInit() {
     this.tripService.trips$.subscribe((data) => {
       this.allTrips = data;
     });
+    // check for a current user and set the signal
+    this.currentUser.set(localStorage.getItem('currentUserId'));
   }
 }
