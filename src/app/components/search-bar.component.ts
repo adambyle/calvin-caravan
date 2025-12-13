@@ -95,36 +95,52 @@ import { MatNativeDateModule } from '@angular/material/core';
     </div>
   `,
   styles: [`
-    .search-bar {
-      margin: 16px 0;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
+.search-bar {
+  margin: 1rem 0;              /* 16px → 1rem */
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;                   /* 16px → 1rem */
+}
 
-    .dev {
-      background-color: #c6cc75ff;
-    }
+.dev {
+  background-color: #c6cc75ff;
+}
 
-    .controls {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      align-items: center;
-    }
-    
-    .wide {
-      flex: 1 1 320px;
-      min-width: 300px;
-    }
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;                /* 12px → 0.75rem */
+  align-items: center;
+}
 
-    .small {
-      width: 180px;
-    }
+.wide {
+  flex: 1 1 20rem;             /* 320px → 20rem */
+  min-width: 18.75rem;         /* 300px → 18.75rem */
+}
 
-    .result-count {
-      font-weight: 600;
-    }
+.small {
+  width: 11.25rem;             /* 180px → 11.25rem */
+}
+
+.result-count {
+  font-weight: 600;
+}
+
+@media (max-width: 37.5rem) {  /* 600px → 37.5rem */
+  .controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;                    /* 0px → 0 */
+  }
+
+  .wide,
+  .small,
+  .large {
+    width: 100%;
+    flex: 1 1 auto;
+  }
+}
+
   `]
 })
 export class SearchBarComponent {
