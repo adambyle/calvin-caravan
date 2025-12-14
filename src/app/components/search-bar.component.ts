@@ -37,21 +37,13 @@ import { MatNativeDateModule } from '@angular/material/core';
           <mat-icon matSuffix>search</mat-icon>
         </mat-form-field>
 
-        <!-- Origin -->
+        <!-- Location -->
         <mat-form-field appearance="outline" class="small">
           <mat-label>Location</mat-label>
           <input matInput
                  [(ngModel)]="locationFilter"
                  (ngModelChange)="applyFilters()" />
         </mat-form-field>
-
-        <!-- Destination -->
-        <!-- <mat-form-field appearance="outline" class="small">
-          <mat-label>Destination</mat-label>
-          <input matInput
-                 [(ngModel)]="destinationFilter"
-                 (ngModelChange)="applyFilters()" />
-        </mat-form-field> -->
 
         <!-- Date -->
         <mat-form-field appearance="outline" class="large">
@@ -66,38 +58,11 @@ import { MatNativeDateModule } from '@angular/material/core';
           <mat-date-range-picker #picker></mat-date-range-picker>
         </mat-form-field>
       </div>
-
-      <!-- <div class="dev">
-        <div class ="held-trips-in-component">
-            <p class="result-count">DEV Held Trips in component in search bar: {{ allTrips()?.length }}</p>
-          @if(allTrips()) {
-            <ul>
-              @for(t of allTrips(); track t.id) {
-              <li>ID {{$index}}:{{t.id}} Title: {{t.title}}</li>
-              }
-            </ul>
-          }
-
-          <p class="result-count">DEV Filtered Results in search bar (search bar gives just the ids): {{ filteredIds.length }}</p>
-          @if(filteredIds.length) {
-          <ul>
-            @for(i of filteredIds; track $index) {
-              <li>ID {{$index}}:{{i}}</li>
-            }
-          </ul>
-
-          }
-        </div>
-
-      <div>
-        <p>DEV:</p>
-        <p>{{ searchTerm }}, {{ originFilter }}, {{ destinationFilter }}, {{ dateFilter }}</p>
-      </div> -->
     </div>
   `,
   styles: [`
 .search-bar {
-  margin: 1rem 0;              /* 16px → 1rem */
+  margin: 1rem 0;
   display: flex;
   flex-direction: column;
 }
@@ -109,28 +74,28 @@ import { MatNativeDateModule } from '@angular/material/core';
 .controls {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;                /* 12px → 0.75rem */
+  gap: 0.75rem;
   align-items: center;
 }
 
 .wide {
-  flex: 1 1 20rem;             /* 320px → 20rem */
-  min-width: 18.75rem;         /* 300px → 18.75rem */
+  flex: 1 1 20rem;
+  min-width: 18.75rem;
 }
 
 .small {
-  width: 11.25rem;             /* 180px → 11.25rem */
+  width: 11.25rem;
 }
 
 .result-count {
   font-weight: 600;
 }
 
-@media (max-width: 37.5rem) {  /* 600px → 37.5rem */
+@media (max-width: 37.5rem) {
   .controls {
     flex-direction: column;
     align-items: stretch;
-    gap: 0;                    /* 0px → 0 */
+    gap: 0;
   }
 
   .wide,
