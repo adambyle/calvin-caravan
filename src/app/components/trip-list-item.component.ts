@@ -167,16 +167,16 @@ import { User } from '../models/User';
 
     .facts-row {
       display: flex;
-      gap: 24px;
-      margin-bottom: 16px;
+      flex-direction: row;
+      gap: 1.5rem;      /* 24px */
+      margin-bottom: 1rem;
       color: #666;
       font-size: 13px;
-      flex-wrap: wrap;
     }
 
     .fact-item {
       margin: 0;
-      white-space: nowrap;
+      white-space: nowrap; /* desktop */
     }
 
     .description-box {
@@ -205,12 +205,18 @@ import { User } from '../models/User';
 
     @media (max-width: 600px) {
     /* To make the description cut off cleanly on smaller screens */
-  .description-box p {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
+      .description-box p {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+        
+      .facts-row {
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+    }
 
     .content-row {
     display: flex;
@@ -219,7 +225,6 @@ import { User } from '../models/User';
     gap: 20px;
     align-items: flex-start;
   }
-}
 
   `]
 })
