@@ -152,6 +152,7 @@ import { User } from '../models/User';
 
     .content-row {
       display: flex;
+      flex-wrap: wrap;
       gap: 20px;
       align-items: flex-start;
     }
@@ -201,6 +202,25 @@ import { User } from '../models/User';
       background-color: #4caf50;
       color: white;
     }
+
+    @media (max-width: 600px) {
+    /* To make the description cut off cleanly on smaller screens */
+  .description-box p {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+    .content-row {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: flex-start;
+  }
+}
+
   `]
 })
 export class TripListItemComponent implements OnInit {
