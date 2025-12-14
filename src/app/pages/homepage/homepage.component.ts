@@ -60,6 +60,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
           <pre>{{ t | json }}</pre>
         }
       </div> -->
+      <h2>Matching Trips</h2>
       <app-trip-list [trips]="filteredTrips"></app-trip-list>
     </div>
   `,
@@ -78,18 +79,6 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
       padding: 20px;
     }
 
-    .filter-bar-stub,
-    .search-bar-stub,
-    .trip-item-stub {
-      border: 2px dashed #ccc;
-      padding: 20px;
-      margin: 16px 0;
-      border-radius: 4px;
-      background-color: #f5f5f5;
-      text-align: center;
-      color: #666;
-    }
-
     .filter-toolbar {
       display: flex;
       width: 100%;
@@ -97,7 +86,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
     }
 
     .trip-list h2 {
-      margin-top: 32px;
+      margin-top: 0px;
       margin-bottom: 16px;
     }
   `]

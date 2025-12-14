@@ -1,11 +1,23 @@
 @use '@angular/material' as mat;
 
-/* Define a compact density theme */
-$compact-theme: mat.define-theme((
+/* Desktop density */
+$desktop-theme: mat.define-theme((
+  density: (scale: 0),
+));
+
+/* Mobile density (max compact) */
+$mobile-theme: mat.define-theme((
   density: (scale: -5),
 ));
 
-/* Apply density ONLY inside the wrapper */
+/* Default (desktop-first) */
 .dense-input {
-  @include mat.all-component-densities($compact-theme);
+  @include mat.form-field-density($desktop-theme);
+}
+
+/* Override on mobile */
+@media (max-width: 600px) {
+  .dense-input {
+    @include mat.form-field-density($mobile-theme);
+  }
 }

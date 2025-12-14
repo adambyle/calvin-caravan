@@ -100,7 +100,6 @@ import { MatNativeDateModule } from '@angular/material/core';
   margin: 1rem 0;              /* 16px → 1rem */
   display: flex;
   flex-direction: column;
-  gap: 1rem;                   /* 16px → 1rem */
 }
 
 .dev {

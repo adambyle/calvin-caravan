@@ -9,7 +9,6 @@ import { Trip } from '../models/Trip';
   imports: [CommonModule, TripListItemComponent],
   template: `
     <div class="trip-list">
-      <h2>Upcoming Trips</h2>
       @if(trips()) {
       <div class="results">
         @for(i of trips(); track $index) {
