@@ -275,6 +275,13 @@ import { UserService } from '../../services/user-service';
       background-color: #f5f5f5;
       color: #666;
     }
+
+  @media (max-width: 600px) {
+  .title-tags-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
   `]
 })
 export class TripDetailsComponent implements OnInit {
@@ -285,7 +292,7 @@ export class TripDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private tripService: TripService,
     private userService: UserService
-  ) {}
+  ) { }
 
   ngOnInit() {
     // Get the docID from the route parameters
