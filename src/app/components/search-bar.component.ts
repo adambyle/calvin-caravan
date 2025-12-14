@@ -13,6 +13,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 @Component({
   selector: 'app-search-bar',
   standalone: true,
+  styleUrls: ['./search-bar.component.scss'],
   imports: [
     CommonModule,
     FormsModule,
@@ -25,7 +26,7 @@ import { MatNativeDateModule } from '@angular/material/core';
   template: `
     <div class="search-bar">
 
-      <div class="controls">
+      <div class="controls dense-input">
 
         <!-- Search -->
         <mat-form-field appearance="outline" class="wide">

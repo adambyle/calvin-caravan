@@ -1,0 +1,11 @@
+@use '@angular/material' as mat;
+
+/* Define a compact density theme */
+$compact-theme: mat.define-theme((
+  density: (scale: -5),
+));
+
+/* Apply density ONLY inside the wrapper */
+.dense-input {
+  @include mat.all-component-densities($compact-theme);
+}
