@@ -19,7 +19,7 @@ export class TripService {
 
   submitNewTrip = async (ownerID: string, title: string, tags: string[], requirements: string, startDate: Timestamp,
     endDate: Timestamp, price: number, maxCapacity: number, currentCapacity: number, description: string,
-    primaryLocation: string, relatedLinks: string[], headerImage: string, meetingInfo: string, status: string, visibility: boolean) => {
+    primaryLocation: string, relatedLinks: string[], headerImage: string, meetingInfo: string, status: string, visibility: boolean): Promise<string> => {
     const tripData: Trip = {
       owner_id: ownerID,
       title: title,
@@ -39,7 +39,8 @@ export class TripService {
       status: status,
       visibility: visibility
     };
-    await addDoc(collection(this.firestore, 'Trips'), tripData);
+    const docRef = await addDoc(collection(this.firestore, 'Trips'), tripData);
+    return docRef.id;
   }
 
   deleteTrip = async (docID: string) => {

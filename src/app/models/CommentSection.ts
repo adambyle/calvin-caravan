@@ -1,6 +1,6 @@
 import { Message } from "./Message";
 export interface CommentSection {
   docID?: string;
-  tripID: string;
+  trip_id: string;
   messages: Message[];
 }

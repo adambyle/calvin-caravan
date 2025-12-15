@@ -26,7 +26,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 export class TopFilterBarComponent {
   selectedFilter = output<string>();
   selectedTabIndex = 0;
-  tabLabels = ['any', 'wilderness', 'Spring Break', 'Study Abroad', 'Student Led'];
+  tabLabels = ['any', 'Wilderness', 'Spring Break', 'Study Abroad', 'Student Led'];
   onSelectedTabChange = () => {
     this.selectedFilter.emit(this.tabLabels[this.selectedTabIndex]);
   }
