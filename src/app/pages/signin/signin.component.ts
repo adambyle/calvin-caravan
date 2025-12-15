@@ -175,15 +175,41 @@ import { User } from '../../models/User';
     </div>
   `,
   styles: [`
+    :host {
+      display: block;
+      background: #4e121bff;
+      color: #f3cd01;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      min-height: 100vh;
+    }
+
+    .spacer {
+      flex: 1 1 auto;
+    }
+
+    mat-toolbar {
+      background-color: #8c2131;
+      color: #ffffff;
+    }
+
+    mat-toolbar button,
+    mat-toolbar button mat-icon,
+    mat-toolbar span {
+      color: #ffffff;
+    }
+
     .container {
       max-width: 500px;
       margin: 40px auto;
       padding: 20px;
+      background: #661924ff;
     }
 
     .signin-card,
     .signup-card {
       margin-bottom: 24px;
+      background-color: #8c2131;
+      color: #ffffff;
     }
 
     .signin-form,
@@ -204,15 +230,19 @@ import { User } from '../../models/User';
       font-size: 16px;
     }
 
+    mat-card-title {
+      color: #f3cd01;
+    }
+
     .error-message {
       display: flex;
       align-items: center;
       gap: 8px;
-      color: #d32f2f;
+      color: #f3cd01;
       font-size: 14px;
       margin-top: 8px;
       padding: 8px 12px;
-      background-color: #ffebee;
+      background-color: #661924ff;
       border-radius: 4px;
     }
 

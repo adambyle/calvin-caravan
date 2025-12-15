@@ -156,18 +156,49 @@ import { TripService } from '../../services/trip-service';
     </div>
   `,
   styles: [`
+    :host {
+      display: block;
+      background: #4e121bff;
+      color: #f3cd01;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      min-height: 100vh;
+    }
+
     .spacer {
       flex: 1 1 auto;
+    }
+
+    mat-toolbar {
+      background-color: #8c2131;
+      color: #ffffff;
+    }
+
+    mat-toolbar button,
+    mat-toolbar button mat-icon,
+    mat-toolbar span {
+      color: #ffffff;
     }
 
     .container {
       max-width: 1200px;
       margin: 0 auto;
       padding: 20px;
+      background: #661924ff;
     }
 
     .profile-card {
       margin-bottom: 24px;
+      background-color: #8c2131;
+      color: #ffffff;
+    }
+
+    mat-card {
+      background-color: #8c2131;
+      color: #ffffff;
+    }
+
+    mat-card-title {
+      color: #f3cd01;
     }
 
     .profile-display {
@@ -176,8 +207,9 @@ import { TripService } from '../../services/trip-service';
 
     .profile-field {
       padding: 12px 0;
-      border-bottom: 1px solid #eee;
+      border-bottom: 1px solid #661924ff;
       font-size: 15px;
+      color: #ffffff;
     }
 
     .profile-field:last-of-type {
@@ -212,14 +244,14 @@ import { TripService } from '../../services/trip-service';
       justify-content: center;
       padding: 48px 24px;
       text-align: center;
-      color: #666;
+      color: #ffffff;
     }
 
     .empty-state mat-icon {
       font-size: 64px;
       width: 64px;
       height: 64px;
-      color: #999;
+      color: #f3cd01;
       margin-bottom: 16px;
     }
 

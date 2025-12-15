@@ -91,6 +91,7 @@ import { User } from '../models/User';
       background-color: #8c2131; /* red background container */
       border: 1px solid #8c2131; /* red border */
       color: #ffffff; /* default text white */
+      box-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
     }
 
     .header-row {

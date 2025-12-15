@@ -218,14 +218,43 @@ import { CommentsService } from '../../services/comments-service';
     </div>
   `,
   styles: [`
+    :host {
+      display: block;
+      background: #4e121bff;
+      color: #f3cd01;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      min-height: 100vh;
+    }
+
     .spacer {
       flex: 1 1 auto;
+    }
+
+    mat-toolbar {
+      background-color: #8c2131;
+      color: #ffffff;
+    }
+
+    mat-toolbar button,
+    mat-toolbar button mat-icon,
+    mat-toolbar span {
+      color: #ffffff;
     }
 
     .container {
       max-width: 800px;
       margin: 0 auto;
       padding: 20px;
+      background: #661924ff;
+    }
+
+    mat-card {
+      background-color: #8c2131;
+      color: #ffffff;
+    }
+
+    mat-card-title {
+      color: #f3cd01;
     }
 
     .trip-form {
@@ -259,7 +288,7 @@ import { CommentsService } from '../../services/comments-service';
     .section-label {
       display: block;
       font-weight: 500;
-      color: rgba(0, 0, 0, 0.6);
+      color: #f3cd01;
       margin-bottom: 8px;
       font-size: 14px;
     }
@@ -273,7 +302,7 @@ import { CommentsService } from '../../services/comments-service';
       flex-wrap: wrap;
       gap: 16px;
       padding: 12px;
-      background-color: #f5f5f5;
+      background-color: #661924ff;
       border-radius: 4px;
     }
 
@@ -305,14 +334,14 @@ import { CommentsService } from '../../services/comments-service';
       justify-content: center;
       padding: 48px 24px;
       text-align: center;
-      color: #666;
+      color: #ffffff;
     }
 
     .empty-state mat-icon {
       font-size: 64px;
       width: 64px;
       height: 64px;
-      color: #999;
+      color: #f3cd01;
       margin-bottom: 16px;
     }
 
