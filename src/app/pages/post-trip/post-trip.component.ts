@@ -45,12 +45,12 @@ import { CommentsService } from '../../services/comments-service';
   template: `
     <mat-toolbar color="primary">
       <button mat-icon-button routerLink="/">
-        <mat-icon>arrow_back</mat-icon>
+        <mat-icon class="icon-theme">arrow_back</mat-icon>
       </button>
       <span>Calvin Caravan - {{ isEditMode ? 'Edit Trip' : 'Post a Trip' }}</span>
       <span class="spacer"></span>
       <button mat-icon-button routerLink="/my-account">
-        <mat-icon>account_circle</mat-icon>
+        <mat-icon class="icon-theme">account_circle</mat-icon>
       </button>
     </mat-toolbar>
 
@@ -59,9 +59,9 @@ import { CommentsService } from '../../services/comments-service';
         <mat-card class="signin-prompt">
           <mat-card-content>
             <div class="empty-state">
-              <mat-icon>lock</mat-icon>
+              <mat-icon class="icon-theme">lock</mat-icon>
               <p>Please sign in to post a trip.</p>
-              <button mat-raised-button color="primary" routerLink="/signin">
+              <button mat-raised-button color="primary" routerLink="/signin" class="mat-raised-button-theme">
                 Sign In
               </button>
             </div>
@@ -182,11 +182,11 @@ import { CommentsService } from '../../services/comments-service';
                       <input matInput [(ngModel)]="tripForm.relatedLinks[$index]" [name]="'link-' + $index" />
                     </mat-form-field>
                     <button mat-icon-button color="warn" type="button" (click)="removeLink($index)">
-                      <mat-icon>delete</mat-icon>
+                      <mat-icon class="icon-theme">delete</mat-icon>
                     </button>
                   </div>
                 }
-                <button mat-stroked-button type="button" (click)="addLink()">
+                <button mat-raised-button type="button" (click)="addLink()" class="mat-raised-button-theme">
                   <mat-icon>add</mat-icon>
                   Add Link
                 </button>
@@ -209,10 +209,10 @@ import { CommentsService } from '../../services/comments-service';
             </form>
           </mat-card-content>
           <mat-card-actions>
-            <button mat-raised-button color="primary" (click)="saveTrip()">
+            <button mat-raised-button color="primary" (click)="saveTrip()" class="mat-raised-button-theme">
               {{ isEditMode ? 'Update Trip' : 'Post Trip' }}
             </button>
-            <button mat-button routerLink="/">Cancel</button>
+            <button mat-raised-button routerLink="/" class="mat-raised-button-theme">Cancel</button>
           </mat-card-actions>
         </mat-card>
       }
@@ -289,7 +289,7 @@ import { CommentsService } from '../../services/comments-service';
     .section-label {
       display: block;
       font-weight: 500;
-      color: #f3cd01;
+      color: #ffffffff;
       margin-bottom: 8px;
       font-size: 14px;
     }

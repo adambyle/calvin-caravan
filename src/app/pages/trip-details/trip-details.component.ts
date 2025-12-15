@@ -33,17 +33,17 @@ import { CommentSection } from '../../models/CommentSection';
   template: `
     <mat-toolbar color="primary">
       <button mat-icon-button routerLink="/">
-        <mat-icon>arrow_back</mat-icon>
+        <mat-icon class="icon-theme">arrow_back</mat-icon>
       </button>
       <span>Calvin Caravan</span>
       <span class="spacer"></span>
       @if (!currentUserId) {
         <button mat-icon-button routerLink="/signin">
-          <mat-icon>account_circle</mat-icon>
+          <mat-icon class="icon-theme">account_circle</mat-icon>
         </button>
       } @else {
         <button mat-icon-button routerLink="/my-account">
-          <mat-icon>account_circle</mat-icon>
+          <mat-icon class="icon-theme">account_circle</mat-icon>
         </button>    
       }
     </mat-toolbar>
@@ -64,16 +64,16 @@ import { CommentSection } from '../../models/CommentSection';
               </div>
               <mat-card-subtitle>
                 <span class="trip-field-location">
-                  <mat-icon class="location-icon" inline>location_on</mat-icon>
+                  <mat-icon class="location-icon icon-theme" inline>location_on</mat-icon>
                     {{ trip.primaryLocation }}
                 </span>
                 <span class="trip-field-price"> {{ trip.price | currency:'USD':'symbol':'1.2-2' }}</span>
               </mat-card-subtitle>
             </div>
             <button mat-icon-button (click)="onFavorite()" [ngClass]="{ 'favorite-active': isFavorite() }">
-              <mat-icon>star</mat-icon>
+              <mat-icon class="icon-theme">star</mat-icon>
             </button>
-            <button mat-raised-button color="accent" (click)="onCommit()" [ngClass]="{ 'commit-active': isCommitted() }">
+            <button mat-raised-button color="accent" (click)="onCommit()" [ngClass]="{ 'commit-active': isCommitted() }" class="mat-raised-button-theme">
               @if (isCommitted()) {
                 Committed!
               } @else {
@@ -127,7 +127,7 @@ import { CommentSection } from '../../models/CommentSection';
               <div>
               @if (message.user_id === currentUserId) {
                   <button mat-icon-button color="warn" (click)="deleteMessage(message)">
-                    <mat-icon>delete</mat-icon>
+                    <mat-icon class="icon-theme">delete</mat-icon>
                   </button>
                 }
               </div>
@@ -139,11 +139,11 @@ import { CommentSection } from '../../models/CommentSection';
       </div>
       @if (currentUserId) {
         <div class="message-input">
-          <mat-form-field appearance="outline" class="full-width">
+          <mat-form-field appearance="outline" class="full-width form-field-theme">
             <mat-label>Add a comment</mat-label>
             <textarea matInput [(ngModel)]="newMessage" name="newMessage" rows="2"></textarea>
           </mat-form-field>
-          <button mat-raised-button color="primary" (click)="sendMessage()">Send</button>
+          <button mat-raised-button color="primary" (click)="sendMessage()" class="mat-raised-button-theme">Send</button>
         </div>
       }
     </div>

@@ -8,7 +8,7 @@ import { MatTabsModule } from '@angular/material/tabs';
   imports: [CommonModule, MatTabsModule],
   template: `
     <mat-tab-group class="filter-bar-theme" [(selectedIndex)]="selectedTabIndex" (selectedIndexChange)="onSelectedTabChange()">
-      <mat-tab class="themed" label="Any Trip"></mat-tab>
+      <mat-tab label="Any Trip"></mat-tab>
       <mat-tab label="Wilderness"></mat-tab>
       <mat-tab label="Spring Break"></mat-tab>
       <mat-tab label="Study Abroad"></mat-tab>

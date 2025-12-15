@@ -34,7 +34,6 @@ body {
   margin: 0;
 }
 
-
 .filter-bar-theme {
   @include mat.tabs-overrides((
     active-label-text-color: #f3cd01,
@@ -49,7 +48,6 @@ body {
   ));
 }
 
-
 .date-picker-theme {
   @include mat.datepicker-overrides((
       range-input-separator-color: #ffffff,
@@ -61,6 +59,10 @@ body {
 .icon-theme {
   @include mat.icon-overrides((color: #ffffff));
 }
+
+// .mat-icon-in-button {
+//   @include mat.icon-overrides((color: #8c2131));
+// }
 
 .form-field-theme {
   @include mat.form-field-overrides((
@@ -82,32 +84,36 @@ body {
       /* Error */
       outlined-error-label-text-color: #ff6b6b,
       outlined-error-outline-color: #ff6b6b,
+
     ));
 }
 
-// .checkbox-theme {
-//   @include mat.checkbox-overrides((
-//       selected-checkmark-color: #8c2131,
-//       selected-icon-color: #f3cd01,
-//       unselected-icon-color: #ffffff,
-//       label-text-color: #ffffff,
-//     ));
-// }
+.mat-raised-button-theme {
+  @include mat.button-overrides((
+    protected-label-text-color: #8c2131,
+  ));
 
-// .select-theme {
-//   @include mat.select-overrides((
-//       trigger-text-color: #ffffff,
-//       arrow-color: #ffffff,
-//       enabled-arrow-color: #ffffff,
-//       focused-arrow-color: #f3cd01,
-//     ));
-// }
+  @include mat.icon-overrides((color: #8c2131));
+}
 
-// .button-theme {
-//   @include mat.button-overrides((
-//       text-color: #ffffff,
-//     ));
-// }
+
+.checkbox-theme {
+  @include mat.checkbox-overrides((
+    label-text-color: #ffffff,
+    selected-icon-color: #f3cd01,
+    unselected-icon-color: #ffffff,
+    ));
+}
+
+.select-theme {
+  @include mat.select-overrides((
+    enabled-trigger-text-color: #ffffff,
+    enabled-arrow-color: #ffffff,
+    disabled-arrow-color: #ffffff,
+    focused-arrow-color: #ffffff
+    ));
+    
+}
 
 @media (max-width: 600px) {
   .dense {

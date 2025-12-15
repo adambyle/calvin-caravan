@@ -31,8 +31,8 @@ import { User } from '../../models/User';
   ],
   template: `
     <mat-toolbar color="primary">
-      <button mat-icon-button routerLink="/">
-        <mat-icon>arrow_back</mat-icon>
+      <button mat-icon-button routerLink="/" class="mat-button-theme">
+        <mat-icon class="icon-theme">arrow_back</mat-icon>
       </button>
       <span>Calvin Caravan</span>
     </mat-toolbar>
@@ -44,7 +44,7 @@ import { User } from '../../models/User';
         </mat-card-header>
         <mat-card-content>
           <form class="signin-form" (ngSubmit)="signIn()">
-            <mat-form-field appearance="outline" class="full-width">
+            <mat-form-field appearance="outline" class="full-width form-field-theme">
               <mat-label>Email</mat-label>
               <input 
                 matInput 
@@ -53,10 +53,10 @@ import { User } from '../../models/User';
                 name="signInEmail"
                 required
               />
-              <mat-icon matSuffix>email</mat-icon>
+              <mat-icon matSuffix class="icon-theme">email</mat-icon>
             </mat-form-field>
 
-            <mat-form-field appearance="outline" class="full-width">
+            <mat-form-field appearance="outline" class="full-width form-field-theme">
               <mat-label>Password</mat-label>
               <input 
                 matInput 
@@ -71,7 +71,7 @@ import { User } from '../../models/User';
                 type="button"
                 (click)="hideSignInPassword = !hideSignInPassword"
               >
-                <mat-icon>{{hideSignInPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                <mat-icon class="icon-theme">{{hideSignInPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
               </button>
             </mat-form-field>
 
@@ -79,7 +79,7 @@ import { User } from '../../models/User';
               mat-raised-button 
               color="primary" 
               type="submit"
-              class="full-width submit-btn"
+              class="full-width submit-btn mat-raised-button-theme"
             >
               Sign In
             </button>
@@ -93,7 +93,7 @@ import { User } from '../../models/User';
         </mat-card-header>
         <mat-card-content>
           <form class="signup-form" (ngSubmit)="signUp()">
-            <mat-form-field appearance="outline" class="full-width">
+            <mat-form-field appearance="outline" class="full-width form-field-theme">
               <mat-label>Display Name</mat-label>
               <input 
                 matInput 
@@ -101,10 +101,10 @@ import { User } from '../../models/User';
                 name="displayName"
                 required
               />
-              <mat-icon matSuffix>person</mat-icon>
+              <mat-icon matSuffix class="icon-theme">person</mat-icon>
             </mat-form-field>
 
-            <mat-form-field appearance="outline" class="full-width">
+            <mat-form-field appearance="outline" class="full-width form-field-theme">
               <mat-label>Email</mat-label>
               <input 
                 matInput 
@@ -113,10 +113,10 @@ import { User } from '../../models/User';
                 name="signUpEmail"
                 required
               />
-              <mat-icon matSuffix>email</mat-icon>
+              <mat-icon matSuffix class="icon-theme">email</mat-icon>
             </mat-form-field>
 
-            <mat-form-field appearance="outline" class="full-width">
+            <mat-form-field appearance="outline" class="full-width form-field-theme">
               <mat-label>Password</mat-label>
               <input 
                 matInput 
@@ -130,12 +130,13 @@ import { User } from '../../models/User';
                 matSuffix 
                 type="button"
                 (click)="hideSignUpPassword = !hideSignUpPassword"
+                class="mat-button-theme"
               >
-                <mat-icon>{{hideSignUpPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                <mat-icon class="icon-theme">{{hideSignUpPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
               </button>
             </mat-form-field>
 
-            <mat-form-field appearance="outline" class="full-width">
+            <mat-form-field appearance="outline" class="full-width form-field-theme">
               <mat-label>Confirm Password</mat-label>
               <input 
                 matInput 
@@ -149,14 +150,15 @@ import { User } from '../../models/User';
                 matSuffix 
                 type="button"
                 (click)="hideConfirmPassword = !hideConfirmPassword"
+                class="mat-button-theme"
               >
-                <mat-icon>{{hideConfirmPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                <mat-icon class="icon-theme">{{hideConfirmPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
               </button>
             </mat-form-field>
 
             @if (passwordMismatch) {
               <div class="error-message">
-                <mat-icon>error</mat-icon>
+                <mat-icon class="icon-theme">error</mat-icon>
                 Passwords do not match
               </div>
             }
@@ -165,7 +167,7 @@ import { User } from '../../models/User';
               mat-raised-button 
               color="accent" 
               type="submit"
-              class="full-width submit-btn"
+              class="full-width submit-btn mat-raised-button-theme"
             >
               Create Account
             </button>

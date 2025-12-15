@@ -41,7 +41,7 @@ import { User } from '../models/User';
             (click)="onFavorite()"
             [ngClass]="{ 'favorite-active': isFavorite() }"
           >
-            <mat-icon>star</mat-icon>
+            <mat-icon class="icon-theme">star</mat-icon>
           </button>
 
           <button
@@ -49,6 +49,7 @@ import { User } from '../models/User';
             color="accent"
             (click)="onCommit()"
             [ngClass]="{ 'commit-active': isCommitted() }"
+            class="mat-raised-button-theme"
           >
             @if (isCommitted()) {
               Committed!
