@@ -142,7 +142,7 @@ export class HomepageComponent {
 
   ngOnInit() {
     this.tripService.trips$.subscribe((data) => {
-      this.allTrips = data;
+      this.allTrips = data.sort((a, b) => a.startDate.toDate().getTime() - b.startDate.toDate().getTime());
     });
     // check for a current user and set the signal
     this.currentUser.set(localStorage.getItem('currentUserId'));
