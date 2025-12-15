@@ -130,11 +130,11 @@ import { TripService } from '../../services/trip-service';
                     <app-trip-list-item [trip]="trip"></app-trip-list-item>
                     <div class="trip-actions">
                       <button mat-raised-button color="primary" [routerLink]="['/edit-trip', trip.docID]" class="mat-raised-button-theme">
-                        <mat-icon class="icon-theme">edit</mat-icon>
+                        <mat-icon>edit</mat-icon>
                         Edit Trip
                       </button>
                       <button mat-raised-button color="warn" (click)="deleteTrip(trip.docID!)" class="mat-raised-button-theme">
-                        <mat-icon class="icon-theme">delete</mat-icon>
+                        <mat-icon>delete</mat-icon>
                         Delete Trip
                       </button>
                     </div>
