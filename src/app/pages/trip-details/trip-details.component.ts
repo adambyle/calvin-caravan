@@ -70,16 +70,18 @@ import { CommentSection } from '../../models/CommentSection';
                 <span class="trip-field-price"> {{ trip.price | currency:'USD':'symbol':'1.2-2' }}</span>
               </mat-card-subtitle>
             </div>
-            <button mat-icon-button (click)="onFavorite()" [ngClass]="{ 'favorite-active': isFavorite() }">
-              <mat-icon class="icon-theme">star</mat-icon>
-            </button>
-            <button mat-raised-button color="accent" (click)="onCommit()" [ngClass]="{ 'commit-active': isCommitted() }" class="mat-raised-button-theme">
-              @if (isCommitted()) {
-                Committed!
-              } @else {
-                Commit
-              }
-            </button>
+            @if (currentUser()) {
+              <button mat-icon-button (click)="onFavorite()" [ngClass]="{ 'favorite-active': isFavorite() }">
+                <mat-icon class="icon-theme">star</mat-icon>
+              </button>
+              <button mat-raised-button color="accent" (click)="onCommit()" [ngClass]="{ 'commit-active': isCommitted() }" class="mat-raised-button-theme">
+                @if (isCommitted()) {
+                  Committed!
+                } @else {
+                  Commit
+                }
+              </button>
+            }
           </div>
           <mat-card-content>
             <div class="trip-details">
