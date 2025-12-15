@@ -13,6 +13,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 @Component({
   selector: 'app-search-bar',
   standalone: true,
+  styleUrls: ['./search-bar.component.scss'],
   imports: [
     CommonModule,
     FormsModule,
@@ -25,7 +26,7 @@ import { MatNativeDateModule } from '@angular/material/core';
   template: `
     <div class="search-bar">
 
-      <div class="controls">
+      <div class="controls dense-input">
 
         <!-- Search -->
         <mat-form-field appearance="outline" class="wide">
@@ -36,21 +37,13 @@ import { MatNativeDateModule } from '@angular/material/core';
           <mat-icon matSuffix>search</mat-icon>
         </mat-form-field>
 
-        <!-- Origin -->
+        <!-- Location -->
         <mat-form-field appearance="outline" class="small">
           <mat-label>Location</mat-label>
           <input matInput
                  [(ngModel)]="locationFilter"
                  (ngModelChange)="applyFilters()" />
         </mat-form-field>
-
-        <!-- Destination -->
-        <!-- <mat-form-field appearance="outline" class="small">
-          <mat-label>Destination</mat-label>
-          <input matInput
-                 [(ngModel)]="destinationFilter"
-                 (ngModelChange)="applyFilters()" />
-        </mat-form-field> -->
 
         <!-- Date -->
         <mat-form-field appearance="outline" class="large">
@@ -65,66 +58,54 @@ import { MatNativeDateModule } from '@angular/material/core';
           <mat-date-range-picker #picker></mat-date-range-picker>
         </mat-form-field>
       </div>
-
-      <!-- <div class="dev">
-        <div class ="held-trips-in-component">
-            <p class="result-count">DEV Held Trips in component in search bar: {{ allTrips()?.length }}</p>
-          @if(allTrips()) {
-            <ul>
-              @for(t of allTrips(); track t.id) {
-              <li>ID {{$index}}:{{t.id}} Title: {{t.title}}</li>
-              }
-            </ul>
-          }
-
-          <p class="result-count">DEV Filtered Results in search bar (search bar gives just the ids): {{ filteredIds.length }}</p>
-          @if(filteredIds.length) {
-          <ul>
-            @for(i of filteredIds; track $index) {
-              <li>ID {{$index}}:{{i}}</li>
-            }
-          </ul>
-
-          }
-        </div>
-
-      <div>
-        <p>DEV:</p>
-        <p>{{ searchTerm }}, {{ originFilter }}, {{ destinationFilter }}, {{ dateFilter }}</p>
-      </div> -->
     </div>
   `,
   styles: [`
-    .search-bar {
-      margin: 16px 0;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
+.search-bar {
+  margin: 1rem 0;
+  display: flex;
+  flex-direction: column;
+}
 
-    .dev {
-      background-color: #c6cc75ff;
-    }
+.dev {
+  background-color: #c6cc75ff;
+}
 
-    .controls {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      align-items: center;
-    }
-    
-    .wide {
-      flex: 1 1 320px;
-      min-width: 300px;
-    }
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
 
-    .small {
-      width: 180px;
-    }
+.wide {
+  flex: 1 1 20rem;
+  min-width: 18.75rem;
+}
 
-    .result-count {
-      font-weight: 600;
-    }
+.small {
+  width: 11.25rem;
+}
+
+.result-count {
+  font-weight: 600;
+}
+
+@media (max-width: 37.5rem) {
+  .controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  .wide,
+  .small,
+  .large {
+    width: 100%;
+    flex: 1 1 auto;
+  }
+}
+
   `]
 })
 export class SearchBarComponent {

@@ -1,0 +1,13 @@
+@use '@angular/material' as mat;
+
+/* Mobile density (max compact) */
+$mobile-theme: mat.define-theme((
+  density: (scale: -5),
+));
+
+/* Override on mobile */
+@media (max-width: 600px) {
+  mat-form-field {
+    @include mat.form-field-density($mobile-theme);
+  }
+}

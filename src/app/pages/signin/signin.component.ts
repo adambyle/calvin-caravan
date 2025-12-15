@@ -16,6 +16,7 @@ import { User } from '../../models/User';
 @Component({
   selector: 'app-signin',
   standalone: true,
+  styleUrls: ['./signin.component.scss'],
   imports: [
     CommonModule,
     RouterLink,
