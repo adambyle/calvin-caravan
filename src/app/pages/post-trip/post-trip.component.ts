@@ -16,8 +16,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Timestamp } from '@angular/fire/firestore';
+import { arrayUnion } from '@angular/fire/firestore';
 import { TripService } from '../../services/trip-service';
-import { Trip } from '../../models/Trip';
+import { UserService } from '../../services/user-service';
+import { CommentsService } from '../../services/comments-service';
 
 @Component({
   selector: 'app-post-trip',
@@ -347,7 +349,7 @@ export class PostTripComponent implements OnInit {
   };
 
   availableTags = [
-    { name: 'wilderness', selected: false },
+    { name: 'Wilderness', selected: false },
     { name: 'Spring Break', selected: false },
     { name: 'Study Abroad', selected: false },
     { name: 'Student Led', selected: false }
@@ -355,6 +357,8 @@ export class PostTripComponent implements OnInit {
 
   constructor(
     private tripService: TripService,
+    private userService: UserService,
+    private commentsService: CommentsService,
     private router: Router,
     private route: ActivatedRoute,
     private snackBar: MatSnackBar
@@ -486,7 +490,7 @@ export class PostTripComponent implements OnInit {
         });
       } else {
         // Create new trip
-        await this.tripService.submitNewTrip(
+        const tripId = await this.tripService.submitNewTrip(
           this.currentUserId!,
           this.tripForm.title,
           this.tripForm.tags,
@@ -504,6 +508,10 @@ export class PostTripComponent implements OnInit {
           this.tripForm.status,
           this.tripForm.visibility
         );
+
+        await this.commentsService.createCommentSection(tripId);
+
+        await this.userService.updateUser(this.currentUserId!, { ownedTrips: arrayUnion(tripId) } as any);
 
         this.snackBar.open('Trip posted successfully!', 'Close', {
           duration: 3000

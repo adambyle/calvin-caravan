@@ -1,14 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { Trip } from '../../models/Trip';
 import { User } from '../../models/User';
 import { TripService } from '../../services/trip-service';
 import { UserService } from '../../services/user-service';
+import { CommentsService } from '../../services/comments-service';
+import { Message } from '../../models/Message';
+import { CommentSection } from '../../models/CommentSection';
 
 @Component({
   selector: 'app-trip-details',
@@ -16,10 +22,13 @@ import { UserService } from '../../services/user-service';
   imports: [
     CommonModule,
     RouterLink,
+    FormsModule,
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,
-    MatCardModule
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   template: `
     <mat-toolbar color="primary">
@@ -28,9 +37,15 @@ import { UserService } from '../../services/user-service';
       </button>
       <span>Calvin Caravan</span>
       <span class="spacer"></span>
-      <button mat-icon-button routerLink="/my-account">
-        <mat-icon>account_circle</mat-icon>
-      </button>
+      @if (!currentUserId) {
+        <button mat-icon-button routerLink="/signin">
+          <mat-icon>account_circle</mat-icon>
+        </button>
+      } @else {
+        <button mat-icon-button routerLink="/my-account">
+          <mat-icon>account_circle</mat-icon>
+        </button>    
+      }
     </mat-toolbar>
 
     <div class="container">
@@ -55,8 +70,15 @@ import { UserService } from '../../services/user-service';
                 <span class="trip-field-price"> {{ trip.price | currency:'USD':'symbol':'1.2-2' }}</span>
               </mat-card-subtitle>
             </div>
-            <button mat-icon-button color="primary" class="favorite-btn">
-              <mat-icon>favorite_border</mat-icon>
+            <button mat-icon-button (click)="onFavorite()" [ngClass]="{ 'favorite-active': isFavorite() }">
+              <mat-icon>star</mat-icon>
+            </button>
+            <button mat-raised-button color="accent" (click)="onCommit()" [ngClass]="{ 'commit-active': isCommitted() }">
+              @if (isCommitted()) {
+                Committed!
+              } @else {
+                Commit
+              }
             </button>
           </div>
           <mat-card-content>
@@ -93,10 +115,33 @@ import { UserService } from '../../services/user-service';
       } @else {
         <p>Loading trip details...</p>
       }
-      <div class="comment-section-stub">
+      <div class="comment-section">
         <h3>Discussion</h3>
-        <p>CommentSection Component - Comments and discussion will go here</p>
+        @if (commentSection?.messages?.length) {
+          @for (message of commentSection?.messages; track message.docID) {
+            <div class="message">
+              <strong>{{ getUserName(message.user_id) }}</strong>: {{ message.message }}
+              <small>{{ message.timestamp.toDate() | date:'short' }}</small>
+              @if (message.user_id === currentUserId) {
+                <button mat-icon-button color="warn" (click)="deleteMessage(message)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              }
+            </div>
+          }
+        } @else {
+          <p>No messages yet.</p>
+        }
       </div>
+      @if (currentUserId) {
+        <div class="message-input">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Add a comment</mat-label>
+            <textarea matInput [(ngModel)]="newMessage" name="newMessage" rows="2"></textarea>
+          </mat-form-field>
+          <button mat-raised-button color="primary" (click)="sendMessage()">Send</button>
+        </div>
+      }
     </div>
   `,
   styles: [`
@@ -134,12 +179,6 @@ import { UserService } from '../../services/user-service';
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
-    }
-    .favorite-btn {
-      align-self: flex-start;
-      margin-left: auto;
-      margin-top: 2px;
-      z-index: 2;
     }
     .trip-details {
       display: flex;
@@ -267,13 +306,49 @@ import { UserService } from '../../services/user-service';
     .related-links li {
       margin-bottom: 4px;
     }
-    .comment-section-stub {
-      border: 2px dashed #ccc;
+    .comment-section {
+      border: 1px solid #ccc;
       padding: 20px;
       margin: 16px 0;
       border-radius: 4px;
-      background-color: #f5f5f5;
+      background-color: #f9f9f9;
+    }
+    .message {
+      margin-bottom: 10px;
+      padding: 8px;
+      background-color: #fff;
+      border-radius: 4px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+      position: relative;
+    }
+    .message small {
+      display: block;
       color: #666;
+      font-size: 12px;
+      margin-top: 4px;
+    }
+    .message button {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+    }
+    .message-input {
+      margin: 16px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .message-input button {
+      align-self: flex-start;
+    }
+    
+    .favorite-active mat-icon {
+      color: gold;
+    }
+
+    .commit-active {
+      background-color: #4caf50 !important;
+      color: white !important;
     }
 
   @media (max-width: 600px) {
@@ -287,14 +362,23 @@ import { UserService } from '../../services/user-service';
 export class TripDetailsComponent implements OnInit {
   trip: Trip | null = null;
   owner: User | null = null;
+  commentSection: CommentSection | null = null;
+  users: User[] = [];
+  currentUserId: string | null = null;
+  newMessage: string = '';
+  currentUser = signal<User | null>(null);
+  isFavorite = signal<boolean>(false);
+  isCommitted = signal<boolean>(false);
 
   constructor(
     private route: ActivatedRoute,
     private tripService: TripService,
-    private userService: UserService
-  ) { }
+    private userService: UserService,
+    private commentsService: CommentsService
+  ) {}
 
   ngOnInit() {
+    this.currentUserId = localStorage.getItem('currentUserId');
     // Get the docID from the route parameters
     this.route.paramMap.subscribe(params => {
       const docID = params.get('docID');
@@ -302,11 +386,102 @@ export class TripDetailsComponent implements OnInit {
         // Subscribe to trips and find the one matching the docID
         this.tripService.trips$.subscribe(trips => {
           this.trip = trips.find(t => t.docID === docID) || null;
+          if (this.trip) {
+            // Subscribe to comments
+            this.commentsService.comnt$.subscribe(sections => {
+              this.commentSection = sections.find(s => s.trip_id === this.trip!.docID) || null;
+            });
+            this.updateSignals();
+          }
         });
       }
     });
     this.userService.users$.subscribe(users => {
+      this.users = users;
       this.owner = users.find(u => u.docID === this.trip?.owner_id) || null;
+      const user = users.find(u => u.docID === this.currentUserId);
+      if (user) {
+        this.currentUser.set(user);
+      }
+      this.updateSignals();
     })
+  }
+
+  updateSignals() {
+    const user = this.currentUser();
+    if (user && this.trip) {
+      if (user.favoriteTrips?.some(trip => trip == this.trip!.docID)) {
+        this.isFavorite.set(true);
+      } else {
+        this.isFavorite.set(false);
+      }
+      if (user.signedUp?.some(trip => trip == this.trip!.docID)) {
+        this.isCommitted.set(true);
+      } else {
+        this.isCommitted.set(false);
+      }
+    }
+  }
+
+  getUserName(userId: string): string {
+    const user = this.users.find(u => u.docID === userId);
+    return user ? user.displayName : userId;
+  }
+
+  async sendMessage() {
+    if (this.newMessage.trim() && this.commentSection && this.currentUserId) {
+      await this.commentsService.submitNewMessage(this.newMessage, this.currentUserId, this.commentSection.docID!);
+      this.newMessage = '';
+    }
+  }
+
+  async deleteMessage(message: Message) {
+    if (this.commentSection) {
+      await this.commentsService.deleteMessage(message.docID!, this.commentSection.docID!);
+    }
+  }
+
+  onFavorite() {
+    const user = this.currentUser();
+    if (!user || !this.trip) {
+      return;
+    }
+
+    const newIsFavorite = !this.isFavorite();
+    this.isFavorite.set(newIsFavorite);
+
+    const favorites = user.favoriteTrips ?? [];
+
+    if (newIsFavorite) {
+      this.userService.updateUser(user.docID!, {
+        favoriteTrips: [...favorites, this.trip.docID!],
+      });
+    } else {
+      this.userService.updateUser(user.docID!, {
+        favoriteTrips: favorites.filter(t => t !== this.trip!.docID),
+      });
+    }
+  }
+
+  onCommit() {
+    const user = this.currentUser();
+    if (!user || !this.trip) {
+      return;
+    }
+
+    const newIsCommitted = !this.isCommitted();
+    this.isCommitted.set(newIsCommitted);
+
+    const signedUp = user.signedUp ?? [];
+
+    if (newIsCommitted) {
+      this.userService.updateUser(user.docID!, {
+        signedUp: [...signedUp, this.trip.docID!],
+      });
+    } else {
+      this.userService.updateUser(user.docID!, {
+        signedUp: signedUp.filter(t => t !== this.trip!.docID),
+      });
+    }
   }
 }

@@ -21,7 +21,10 @@ export class UserService {
     const userData: User = {
       displayName: displayName,
       email: email,
-      password: password
+      password: password,
+      favoriteTrips: [],
+      signedUp: [],
+      ownedTrips: []
     };
     await addDoc(collection(this.firestore, 'users'), userData);
   }

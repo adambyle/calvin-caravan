@@ -247,9 +247,13 @@ export class TripListItemComponent implements OnInit {
           this.currentUser.set(user);
           if (user.favoriteTrips?.some(trip => trip == this.trip()?.docID)) {
             this.isFavorite.set(true);
+          } else {
+            this.isFavorite.set(false);
           }
           if (user.signedUp?.some(trip => trip == this.trip()?.docID)) {
             this.isCommitted.set(true);
+          } else {
+            this.isCommitted.set(false);
           }
         }
       });
