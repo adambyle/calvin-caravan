@@ -88,8 +88,9 @@ import { User } from '../models/User';
     .trip-card {
       margin: 12px 0;
       padding: 16px;
-      background-color: #8c2131;
-      border: 1px solid #8c2131;
+      background-color: #8c2131; /* red background container */
+      border: 1px solid #8c2131; /* red border */
+      color: #ffffff; /* default text white */
     }
 
     .header-row {
@@ -116,15 +117,16 @@ import { User } from '../models/User';
       font-weight: 600;
       font-size: 18px;
       cursor: pointer;
+      color: #ffffff;
     }
 
     .trip-title:hover {
-      color: #1565c0;
+      color: #f3cd01; /* yellow accent on hover */
     }
 
     .posted-date {
       margin: 0;
-      color: #666;
+      color: #ffffff; /* white generic fact text */
       font-size: 12px;
     }
 
@@ -143,8 +145,8 @@ import { User } from '../models/User';
 
     .tag {
       display: inline-block;
-      background-color: #e0e0e0;
-      color: #333;
+      background-color: #f3cd01; /* yellow for tags */
+      color: #8c2131; /* red text for contrast */
       padding: 4px 12px;
       border-radius: 16px;
       font-size: 12px;
@@ -171,7 +173,7 @@ import { User } from '../models/User';
       flex-direction: row;
       gap: 1.5rem;      /* 24px */
       margin-bottom: 1rem;
-      color: #666;
+      color: #ffffff; /* white generic facts */
       font-size: 13px;
     }
 
@@ -183,25 +185,25 @@ import { User } from '../models/User';
     .description-box {
       flex: 1;
       padding: 12px;
-      background-color: #f5f5f5;
+      background-color: #ffffff; /* white content box */
       border-radius: 6px;
       text-align: left;
     }
 
     .description-box p {
       margin: 0;
-      color: #555;
+      color: #8c2131; /* red body text inside white box */
       font-size: 14px;
       line-height: 1.5;
     }
     
     .favorite-active mat-icon {
-      color: gold;
+      color: #f3cd01; /* yellow for selected favorite */
     }
 
     .commit-active {
-      background-color: #4caf50;
-      color: white;
+      background-color: #f3cd01; /* yellow for selected/action */
+      color: #8c2131; /* red text for contrast */
     }
 
     @media (max-width: 600px) {
