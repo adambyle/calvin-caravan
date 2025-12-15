@@ -20,6 +20,7 @@ import { TripService } from '../../services/trip-service';
 @Component({
   selector: 'app-my-account',
   standalone: true,
+  styleUrls: ['../../../custom-theme.scss'],
   imports: [
     CommonModule,
     RouterLink,
@@ -35,16 +36,15 @@ import { TripService } from '../../services/trip-service';
     TripListItemComponent
   ],
   template: `
-    <mat-toolbar color="primary">
+    <mat-toolbar color="primary" class="mat-toolbar dense">
       <button mat-icon-button routerLink="/">
         <mat-icon>arrow_back</mat-icon>
       </button>
-      <span>Calvin Caravan - My Account</span>
+      <span>My Account</span>
       <span class="spacer"></span>
-      <button mat-button (click)="signOut()">
-        <mat-icon>logout</mat-icon>
+      <div mat-raised-button (click)="signOut()" class="sign-out">
         Sign Out
-      </button>
+      </div>
     </mat-toolbar>
 
     <div class="container">
@@ -56,19 +56,19 @@ import { TripService } from '../../services/trip-service';
         <mat-card-content>
           @if (isEditing()) {
             <div class="profile-form">
-              <mat-form-field appearance="outline" class="full-width">
+              <mat-form-field appearance="outline" class="full-width form-field-theme">
                 <mat-label>Display Name</mat-label>
                 <input matInput [(ngModel)]="editedUser.displayName" />
               </mat-form-field>
-              <mat-form-field appearance="outline" class="full-width">
+              <mat-form-field appearance="outline" class="full-width form-field-theme">
                 <mat-label>Email</mat-label>
                 <input matInput type="email" [(ngModel)]="editedUser.email" />
               </mat-form-field>
               <div class="profile-actions">
-                <button mat-raised-button color="primary" (click)="saveProfile()">
+                <button mat-raised-button color="primary" (click)="saveProfile()" class="mat-raised-button-theme">
                   Save Changes
                 </button>
-                <button mat-button (click)="cancelEdit()">
+                <button mat-raised-button (click)="cancelEdit()" class="mat-raised-button-theme">
                   Cancel
                 </button>
               </div>
@@ -81,7 +81,7 @@ import { TripService } from '../../services/trip-service';
               <div class="profile-field">
                 <strong>Email:</strong> {{ currentUser()?.email }}
               </div>
-              <button mat-raised-button color="primary" (click)="startEdit()">
+              <button mat-raised-button color="primary" (click)="startEdit()" class="mat-raised-button-theme">
                 <mat-icon>edit</mat-icon>
                 Edit Profile
               </button>
@@ -91,7 +91,7 @@ import { TripService } from '../../services/trip-service';
       </mat-card>
       <!-- Tabs for Favorite Trips, Signed Up Trips, and Owned Trips -->
       <mat-card>
-        <mat-tab-group>
+        <mat-tab-group class="filter-bar-theme">
           <mat-tab label="Favorite Trips">
             <div class="tab-content">
               @if (favoriteTrips().length > 0) {
@@ -100,7 +100,7 @@ import { TripService } from '../../services/trip-service';
                 }
               } @else {
                 <div class="empty-state">
-                  <mat-icon>favorite_border</mat-icon>
+                  <mat-icon class="icon-theme">favorite_border</mat-icon>
                   <p>No favorite trips yet. Browse trips and click the star to save them!</p>
                 </div>
               }
@@ -115,7 +115,7 @@ import { TripService } from '../../services/trip-service';
                 }
               } @else {
                 <div class="empty-state">
-                  <mat-icon>event_available</mat-icon>
+                  <mat-icon class="icon-theme">event_available</mat-icon>
                   <p>No trips signed up for yet. Find a trip and click "Commit" to mark it!</p>
                 </div>
               }
@@ -129,12 +129,12 @@ import { TripService } from '../../services/trip-service';
                   <div class="owned-trip-wrapper">
                     <app-trip-list-item [trip]="trip"></app-trip-list-item>
                     <div class="trip-actions">
-                      <button mat-raised-button color="primary" [routerLink]="['/edit-trip', trip.docID]">
-                        <mat-icon>edit</mat-icon>
+                      <button mat-raised-button color="primary" [routerLink]="['/edit-trip', trip.docID]" class="mat-raised-button-theme">
+                        <mat-icon class="icon-theme">edit</mat-icon>
                         Edit Trip
                       </button>
-                      <button mat-raised-button color="warn" (click)="deleteTrip(trip.docID!)">
-                        <mat-icon>delete</mat-icon>
+                      <button mat-raised-button color="warn" (click)="deleteTrip(trip.docID!)" class="mat-raised-button-theme">
+                        <mat-icon class="icon-theme">delete</mat-icon>
                         Delete Trip
                       </button>
                     </div>
@@ -142,9 +142,9 @@ import { TripService } from '../../services/trip-service';
                 }
               } @else {
                 <div class="empty-state">
-                  <mat-icon>add_circle_outline</mat-icon>
+                  <mat-icon class="icon-theme">add_circle_outline</mat-icon>
                   <p>You haven't created any trips yet. Click "Post a Trip" to get started!</p>
-                  <button mat-raised-button color="primary" routerLink="/post-trip">
+                  <button mat-raised-button color="primary" routerLink="/post-trip" class="mat-raised-button-theme">
                     Post a Trip
                   </button>
                 </div>
@@ -156,18 +156,49 @@ import { TripService } from '../../services/trip-service';
     </div>
   `,
   styles: [`
+    :host {
+      display: block;
+      background: #4e121bff;
+      color: #f3cd01;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      min-height: 100vh;
+    }
+
     .spacer {
       flex: 1 1 auto;
+    }
+
+    mat-toolbar {
+      background-color: #8c2131;
+      color: #ffffff;
+    }
+
+    mat-toolbar button,
+    mat-toolbar button mat-icon,
+    mat-toolbar span {
+      color: #ffffff;
     }
 
     .container {
       max-width: 1200px;
       margin: 0 auto;
       padding: 20px;
+      background: #661924ff;
     }
 
     .profile-card {
       margin-bottom: 24px;
+      background-color: #8c2131;
+      color: #ffffff;
+    }
+
+    mat-card {
+      background-color: #8c2131;
+      color: #ffffff;
+    }
+
+    mat-card-title {
+      color: #f3cd01;
     }
 
     .profile-display {
@@ -176,8 +207,9 @@ import { TripService } from '../../services/trip-service';
 
     .profile-field {
       padding: 12px 0;
-      border-bottom: 1px solid #eee;
+      border-bottom: 1px solid #661924ff;
       font-size: 15px;
+      color: #ffffff;
     }
 
     .profile-field:last-of-type {
@@ -212,14 +244,14 @@ import { TripService } from '../../services/trip-service';
       justify-content: center;
       padding: 48px 24px;
       text-align: center;
-      color: #666;
+      color: #ffffff;
     }
 
     .empty-state mat-icon {
       font-size: 64px;
       width: 64px;
       height: 64px;
-      color: #999;
+      color: #f3cd01;
       margin-bottom: 16px;
     }
 
@@ -243,16 +275,28 @@ import { TripService } from '../../services/trip-service';
     .signin-prompt {
       margin-top: 48px;
     }
+
+    .sign-out {
+    background-color: #8c2131; /* base color */
+    color: #ffffff;            /* default text color */
+    transition: color 0.2s ease; /* smooth hover transition */
+    cursor: pointer;
+  }
+
+    .sign-out:hover {
+      color: #f3cd01; /* yellow text on hover */
+    }
+
   `]
 })
 export class MyAccountComponent implements OnInit {
   currentUser = signal<User | null>(null);
   allTrips: Trip[] = [];
-  
+
   favoriteTrips = signal<Trip[]>([]);
   signedUpTrips = signal<Trip[]>([]);
   ownedTrips = signal<Trip[]>([]);
-  
+
   isEditing = signal<boolean>(false);
   editedUser: Partial<User> = {};
 
@@ -260,12 +304,12 @@ export class MyAccountComponent implements OnInit {
     private userService: UserService,
     private tripService: TripService,
     private snackBar: MatSnackBar
-  ) {}
+  ) { }
 
   ngOnInit() {
     // Load current user from localStorage
     const currentUserId = localStorage.getItem('currentUserId');
-    
+
     if (currentUserId) {
       // Subscribe to users and find the current user
       this.userService.users$.subscribe(users => {
@@ -289,19 +333,19 @@ export class MyAccountComponent implements OnInit {
     if (!user || this.allTrips.length === 0) return;
 
     // Load favorite trips
-    const favorites = this.allTrips.filter(trip => 
+    const favorites = this.allTrips.filter(trip =>
       user.favoriteTrips?.some(favTrip => favTrip === trip.docID)
     );
     this.favoriteTrips.set(favorites);
 
     // Load signed up trips
-    const signedUp = this.allTrips.filter(trip => 
+    const signedUp = this.allTrips.filter(trip =>
       user.signedUp?.some(signedTrip => signedTrip === trip.docID)
     );
     this.signedUpTrips.set(signedUp);
 
     // Load owned trips
-    const owned = this.allTrips.filter(trip => 
+    const owned = this.allTrips.filter(trip =>
       trip.owner_id === user.docID
     );
     this.ownedTrips.set(owned);

@@ -7,7 +7,7 @@ import { MatTabsModule } from '@angular/material/tabs';
   standalone: true,
   imports: [CommonModule, MatTabsModule],
   template: `
-    <mat-tab-group [(selectedIndex)]="selectedTabIndex" (selectedIndexChange)="onSelectedTabChange()">
+    <mat-tab-group class="filter-bar-theme" [(selectedIndex)]="selectedTabIndex" (selectedIndexChange)="onSelectedTabChange()">
       <mat-tab label="Any Trip"></mat-tab>
       <mat-tab label="Wilderness"></mat-tab>
       <mat-tab label="Spring Break"></mat-tab>
@@ -15,13 +15,7 @@ import { MatTabsModule } from '@angular/material/tabs';
       <mat-tab label="Student Led"></mat-tab>
     </mat-tab-group>
   `,
-  styles: [`
-    .active-tags {
-      margin-top: 8px;
-      font-size: 14px;
-      font-weight: 500;
-    }
-  `]
+  styleUrls: ['../../custom-theme.scss']
 })
 export class TopFilterBarComponent {
   selectedFilter = output<string>();

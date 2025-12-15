@@ -24,7 +24,7 @@ import { CommentsService } from '../../services/comments-service';
 @Component({
   selector: 'app-post-trip',
   standalone: true,
-  styleUrls: ['./post-trip.component.scss'],
+  styleUrls: ['../../../custom-theme.scss'],
   imports: [
     CommonModule,
     RouterLink,
@@ -45,12 +45,12 @@ import { CommentsService } from '../../services/comments-service';
   template: `
     <mat-toolbar color="primary">
       <button mat-icon-button routerLink="/">
-        <mat-icon>arrow_back</mat-icon>
+        <mat-icon class="icon-theme">arrow_back</mat-icon>
       </button>
       <span>Calvin Caravan - {{ isEditMode ? 'Edit Trip' : 'Post a Trip' }}</span>
       <span class="spacer"></span>
       <button mat-icon-button routerLink="/my-account">
-        <mat-icon>account_circle</mat-icon>
+        <mat-icon class="icon-theme">account_circle</mat-icon>
       </button>
     </mat-toolbar>
 
@@ -59,9 +59,9 @@ import { CommentsService } from '../../services/comments-service';
         <mat-card class="signin-prompt">
           <mat-card-content>
             <div class="empty-state">
-              <mat-icon>lock</mat-icon>
+              <mat-icon class="icon-theme">lock</mat-icon>
               <p>Please sign in to post a trip.</p>
-              <button mat-raised-button color="primary" routerLink="/signin">
+              <button mat-raised-button color="primary" routerLink="/signin" class="mat-raised-button-theme">
                 Sign In
               </button>
             </div>
@@ -76,10 +76,10 @@ import { CommentsService } from '../../services/comments-service';
             <form class="trip-form" (ngSubmit)="saveTrip()">
               
               <!-- Title -->
-              <mat-form-field appearance="outline" class="full-width dense">
+              <mat-form-field appearance="outline" class="full-width dense form-field-theme">
                 <mat-label>Trip Title</mat-label>
                 <input matInput [(ngModel)]="tripForm.title" name="title" required />
-                <mat-icon matSuffix>title</mat-icon>
+                <mat-icon matSuffix class="icon-theme">title</mat-icon>
               </mat-form-field>
 
               <!-- Tags -->
@@ -91,6 +91,7 @@ import { CommentsService } from '../../services/comments-service';
                       [(ngModel)]="tag.selected" 
                       [name]="'tag-' + tag.name"
                       (change)="updateSelectedTags()"
+                      class="checkbox-theme"
                     >
                       {{ tag.name }}
                     </mat-checkbox>
@@ -99,76 +100,76 @@ import { CommentsService } from '../../services/comments-service';
               </div>
 
               <!-- Primary Location -->
-              <mat-form-field appearance="outline" class="full-width dense">
+              <mat-form-field appearance="outline" class="full-width dense form-field-theme">
                 <mat-label>Primary Location</mat-label>
                 <input matInput [(ngModel)]="tripForm.primaryLocation" name="location" required />
-                <mat-icon matSuffix>location_on</mat-icon>
+                <mat-icon matSuffix class="icon-theme">location_on</mat-icon>
               </mat-form-field>
 
               <!-- Date Range -->
               <div class="date-row">
-                <mat-form-field appearance="outline" class="half-width dense">
+                <mat-form-field appearance="outline" class="half-width dense form-field-theme">
                   <mat-label>Start Date</mat-label>
                   <input matInput [matDatepicker]="startPicker" [(ngModel)]="tripForm.startDate" name="startDate" required />
-                  <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+                  <mat-datepicker-toggle matSuffix [for]="startPicker" class="date-picker-theme"></mat-datepicker-toggle>
                   <mat-datepicker #startPicker></mat-datepicker>
                 </mat-form-field>
 
-                <mat-form-field appearance="outline" class="half-width dense">
+                <mat-form-field appearance="outline" class="half-width dense form-field-theme">
                   <mat-label>End Date</mat-label>
                   <input matInput [matDatepicker]="endPicker" [(ngModel)]="tripForm.endDate" name="endDate" required />
-                  <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+                  <mat-datepicker-toggle matSuffix [for]="endPicker" class="date-picker-theme"></mat-datepicker-toggle>
                   <mat-datepicker #endPicker></mat-datepicker>
                 </mat-form-field>
               </div>
 
               <!-- Price and Capacity -->
               <div class="number-row">
-                <mat-form-field appearance="outline" class="third-width dense">
+                <mat-form-field appearance="outline" class="third-width dense form-field-theme">
                   <mat-label>Price ($)</mat-label>
                   <input matInput type="number" [(ngModel)]="tripForm.price" name="price" min="0" required />
-                  <mat-icon matSuffix>attach_money</mat-icon>
+                  <mat-icon matSuffix class="icon-theme">attach_money</mat-icon>
                 </mat-form-field>
 
-                <mat-form-field appearance="outline" class="third-width dense">
+                <mat-form-field appearance="outline" class="third-width dense form-field-theme">
                   <mat-label>Max Capacity</mat-label>
                   <input matInput type="number" [(ngModel)]="tripForm.maxCapacity" name="maxCapacity" min="1" required />
-                  <mat-icon matSuffix>group</mat-icon>
+                  <mat-icon matSuffix class="icon-theme">group</mat-icon>
                 </mat-form-field>
 
-                <mat-form-field appearance="outline" class="third-width dense">
+                <mat-form-field appearance="outline" class="third-width dense form-field-theme">
                   <mat-label>Current Capacity</mat-label>
                   <input matInput type="number" [(ngModel)]="tripForm.currentCapacity" name="currentCapacity" min="0" [max]="tripForm.maxCapacity" required />
-                  <mat-icon matSuffix>people</mat-icon>
+                  <mat-icon matSuffix class="icon-theme">people</mat-icon>
                 </mat-form-field>
               </div>
 
               <!-- Requirements -->
-              <mat-form-field appearance="outline" class="full-width dense">
+              <mat-form-field appearance="outline" class="full-width dense form-field-theme">
                 <mat-label>Requirements</mat-label>
                 <textarea matInput [(ngModel)]="tripForm.requirements" name="requirements" rows="2"></textarea>
-                <mat-icon matSuffix>checklist</mat-icon>
+                <mat-icon matSuffix class="icon-theme">checklist</mat-icon>
               </mat-form-field>
 
               <!-- Description -->
-              <mat-form-field appearance="outline" class="full-width dense">
+              <mat-form-field appearance="outline" class="full-width dense form-field-theme">
                 <mat-label>Description</mat-label>
                 <textarea matInput [(ngModel)]="tripForm.description" name="description" rows="5" required></textarea>
-                <mat-icon matSuffix>description</mat-icon>
+                <mat-icon matSuffix class="icon-theme">description</mat-icon>
               </mat-form-field>
 
               <!-- Meeting Info -->
-              <mat-form-field appearance="outline" class="full-width dense">
+              <mat-form-field appearance="outline" class="full-width dense form-field-theme">
                 <mat-label>Meeting Info</mat-label>
                 <textarea matInput [(ngModel)]="tripForm.meetingInfo" name="meetingInfo" rows="2"></textarea>
-                <mat-icon matSuffix>event</mat-icon>
+                <mat-icon matSuffix class="icon-theme">event</mat-icon>
               </mat-form-field>
 
               <!-- Header Image URL -->
-              <mat-form-field appearance="outline" class="full-width dense">
+              <mat-form-field appearance="outline" class="full-width dense form-field-theme">
                 <mat-label>Header Image URL</mat-label>
                 <input matInput [(ngModel)]="tripForm.headerImage" name="headerImage" />
-                <mat-icon matSuffix>image</mat-icon>
+                <mat-icon matSuffix class="icon-theme">image</mat-icon>
               </mat-form-field>
 
               <!-- Related Links -->
@@ -176,56 +177,85 @@ import { CommentsService } from '../../services/comments-service';
                 <label class="section-label">Related Links</label>
                 @for (link of tripForm.relatedLinks; track $index) {
                   <div class="link-row">
-                    <mat-form-field appearance="outline" class="link-input dense">
+                    <mat-form-field appearance="outline" class="link-input dense form-field-theme">
                       <mat-label>Link {{ $index + 1 }}</mat-label>
                       <input matInput [(ngModel)]="tripForm.relatedLinks[$index]" [name]="'link-' + $index" />
                     </mat-form-field>
                     <button mat-icon-button color="warn" type="button" (click)="removeLink($index)">
-                      <mat-icon>delete</mat-icon>
+                      <mat-icon class="icon-theme">delete</mat-icon>
                     </button>
                   </div>
                 }
-                <button mat-stroked-button type="button" (click)="addLink()">
+                <button mat-raised-button type="button" (click)="addLink()" class="mat-raised-button-theme">
                   <mat-icon>add</mat-icon>
                   Add Link
                 </button>
               </div>
 
               <!-- Status -->
-              <mat-form-field appearance="outline" class="full-width dense">
+              <mat-form-field appearance="outline" class="full-width dense form-field-theme">
                 <mat-label>Status</mat-label>
-                <mat-select [(ngModel)]="tripForm.status" name="status" required>
+                <mat-select [(ngModel)]="tripForm.status" name="status" required class="select-theme">
                   <mat-option value="proposed">Proposed</mat-option>
                   <mat-option value="confirmed">Confirmed</mat-option>
                 </mat-select>
               </mat-form-field>
 
               <!-- Visibility -->
-              <mat-checkbox [(ngModel)]="tripForm.visibility" name="visibility">
+              <mat-checkbox [(ngModel)]="tripForm.visibility" name="visibility" class="checkbox-theme">
                 Make this trip visible to others
               </mat-checkbox>
 
             </form>
           </mat-card-content>
           <mat-card-actions>
-            <button mat-raised-button color="primary" (click)="saveTrip()">
+            <button mat-raised-button color="primary" (click)="saveTrip()" class="mat-raised-button-theme">
               {{ isEditMode ? 'Update Trip' : 'Post Trip' }}
             </button>
-            <button mat-button routerLink="/">Cancel</button>
+            <button mat-raised-button routerLink="/" class="mat-raised-button-theme">Cancel</button>
           </mat-card-actions>
         </mat-card>
       }
     </div>
   `,
   styles: [`
+    :host {
+      display: block;
+      background: #4e121bff;
+      color: #f3cd01;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      min-height: 100vh;
+    }
+
     .spacer {
       flex: 1 1 auto;
+    }
+
+    mat-toolbar {
+      background-color: #8c2131;
+      color: #ffffff;
+    }
+
+    mat-toolbar button,
+    mat-toolbar button mat-icon,
+    mat-toolbar span {
+      color: #ffffff;
     }
 
     .container {
       max-width: 800px;
       margin: 0 auto;
       padding: 20px;
+      background: #661924ff;
+    }
+
+    mat-card {
+      background-color: #8c2131;
+      color: #ffffff;
+    }
+
+    mat-card-title {
+      color: #f3cd01;
     }
 
     .trip-form {
@@ -259,7 +289,7 @@ import { CommentsService } from '../../services/comments-service';
     .section-label {
       display: block;
       font-weight: 500;
-      color: rgba(0, 0, 0, 0.6);
+      color: #ffffffff;
       margin-bottom: 8px;
       font-size: 14px;
     }
@@ -273,7 +303,7 @@ import { CommentsService } from '../../services/comments-service';
       flex-wrap: wrap;
       gap: 16px;
       padding: 12px;
-      background-color: #f5f5f5;
+      background-color: #661924ff;
       border-radius: 4px;
     }
 
@@ -305,14 +335,14 @@ import { CommentsService } from '../../services/comments-service';
       justify-content: center;
       padding: 48px 24px;
       text-align: center;
-      color: #666;
+      color: #ffffff;
     }
 
     .empty-state mat-icon {
       font-size: 64px;
       width: 64px;
       height: 64px;
-      color: #999;
+      color: #f3cd01;
       margin-bottom: 16px;
     }
 

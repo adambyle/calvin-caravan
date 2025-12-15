@@ -33,3 +33,89 @@ body {
   // Reset the user agent margin.
   margin: 0;
 }
+
+.filter-bar-theme {
+  @include mat.tabs-overrides((
+    active-label-text-color: #f3cd01,
+    inactive-label-text-color: #ffffff,
+    active-hover-label-text-color: #f3cd01,
+    inactive-hover-label-text-color: #ffffff,
+    active-focus-label-text-color: #f3cd01,
+    inactive-focus-label-text-color: #ffffff,
+    active-indicator-color: #f3cd01,
+    active-focus-indicator-color: #f3cd01,
+    active-indicator-height: 5px
+  ));
+}
+
+.date-picker-theme {
+  @include mat.datepicker-overrides((
+      range-input-separator-color: #ffffff,
+      toggle-icon-color: #ffffff,
+      toggle-active-state-icon-color: #f3cd01
+    ));
+}
+
+.icon-theme {
+  @include mat.icon-overrides((color: #ffffff));
+}
+
+// .mat-icon-in-button {
+//   @include mat.icon-overrides((color: #8c2131));
+// }
+
+.form-field-theme {
+  @include mat.form-field-overrides((
+      /* Writing */
+      outlined-input-text-color: #ffffff,
+      outlined-input-text-placeholder-color: #ffffff,
+      outlined-caret-color: #f3cd01,
+
+      /* Idle */
+      outlined-label-text-color: #ffffff,
+      outlined-outline-color: #ffffff,
+
+      /* Focus */
+      outlined-focus-label-text-color: #f3cd01,
+      outlined-focus-outline-color: #f3cd01,
+      outlined-hover-label-text-color: #f3cd01,
+      outlined-hover-outline-color: #f3cd01,
+
+      /* Error */
+      outlined-error-label-text-color: #ff6b6b,
+      outlined-error-outline-color: #ff6b6b,
+
+    ));
+}
+
+.mat-raised-button-theme {
+  @include mat.button-overrides((
+    protected-label-text-color: #8c2131,
+  ));
+
+  @include mat.icon-overrides((color: #8c2131));
+}
+
+
+.checkbox-theme {
+  @include mat.checkbox-overrides((
+    label-text-color: #ffffff,
+    selected-icon-color: #f3cd01,
+    unselected-icon-color: #ffffff,
+    ));
+}
+
+.select-theme {
+  @include mat.select-overrides((
+    enabled-trigger-text-color: #ffffff,
+    enabled-arrow-color: #ffffff,
+    disabled-arrow-color: #ffffff,
+    focused-arrow-color: #ffffff
+    ));  
+}
+
+@media (max-width: 600px) {
+  .dense {
+    @include mat.form-field-density(-5);
+  }
+}
