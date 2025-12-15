@@ -13,7 +13,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 @Component({
   selector: 'app-search-bar',
   standalone: true,
-  styleUrls: ['./search-bar.component.scss'],
+  styleUrls: ['../../custom-theme.scss'],
   imports: [
     CommonModule,
     FormsModule,

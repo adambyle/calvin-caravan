@@ -24,7 +24,7 @@ import { CommentsService } from '../../services/comments-service';
 @Component({
   selector: 'app-post-trip',
   standalone: true,
-  styleUrls: ['./post-trip.component.scss'],
+  styleUrls: ['../../../custom-theme.scss'],
   imports: [
     CommonModule,
     RouterLink,
@@ -76,10 +76,10 @@ import { CommentsService } from '../../services/comments-service';
             <form class="trip-form" (ngSubmit)="saveTrip()">
               
               <!-- Title -->
-              <mat-form-field appearance="outline" class="full-width dense">
+              <mat-form-field appearance="outline" class="full-width dense form-field-theme">
                 <mat-label>Trip Title</mat-label>
                 <input matInput [(ngModel)]="tripForm.title" name="title" required />
-                <mat-icon matSuffix>title</mat-icon>
+                <mat-icon matSuffix class="icon-theme">title</mat-icon>
               </mat-form-field>
 
               <!-- Tags -->
@@ -91,6 +91,7 @@ import { CommentsService } from '../../services/comments-service';
                       [(ngModel)]="tag.selected" 
                       [name]="'tag-' + tag.name"
                       (change)="updateSelectedTags()"
+                      class="checkbox-theme"
                     >
                       {{ tag.name }}
                     </mat-checkbox>
@@ -99,76 +100,76 @@ import { CommentsService } from '../../services/comments-service';
               </div>
 
               <!-- Primary Location -->
-              <mat-form-field appearance="outline" class="full-width dense">
+              <mat-form-field appearance="outline" class="full-width dense form-field-theme">
                 <mat-label>Primary Location</mat-label>
                 <input matInput [(ngModel)]="tripForm.primaryLocation" name="location" required />
-                <mat-icon matSuffix>location_on</mat-icon>
+                <mat-icon matSuffix class="icon-theme">location_on</mat-icon>
               </mat-form-field>
 
               <!-- Date Range -->
               <div class="date-row">
-                <mat-form-field appearance="outline" class="half-width dense">
+                <mat-form-field appearance="outline" class="half-width dense form-field-theme">
                   <mat-label>Start Date</mat-label>
                   <input matInput [matDatepicker]="startPicker" [(ngModel)]="tripForm.startDate" name="startDate" required />
-                  <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+                  <mat-datepicker-toggle matSuffix [for]="startPicker" class="date-picker-theme"></mat-datepicker-toggle>
                   <mat-datepicker #startPicker></mat-datepicker>
                 </mat-form-field>
 
-                <mat-form-field appearance="outline" class="half-width dense">
+                <mat-form-field appearance="outline" class="half-width dense form-field-theme">
                   <mat-label>End Date</mat-label>
                   <input matInput [matDatepicker]="endPicker" [(ngModel)]="tripForm.endDate" name="endDate" required />
-                  <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+                  <mat-datepicker-toggle matSuffix [for]="endPicker" class="date-picker-theme"></mat-datepicker-toggle>
                   <mat-datepicker #endPicker></mat-datepicker>
                 </mat-form-field>
               </div>
 
               <!-- Price and Capacity -->
               <div class="number-row">
-                <mat-form-field appearance="outline" class="third-width dense">
+                <mat-form-field appearance="outline" class="third-width dense form-field-theme">
                   <mat-label>Price ($)</mat-label>
                   <input matInput type="number" [(ngModel)]="tripForm.price" name="price" min="0" required />
-                  <mat-icon matSuffix>attach_money</mat-icon>
+                  <mat-icon matSuffix class="icon-theme">attach_money</mat-icon>
                 </mat-form-field>
 
-                <mat-form-field appearance="outline" class="third-width dense">
+                <mat-form-field appearance="outline" class="third-width dense form-field-theme">
                   <mat-label>Max Capacity</mat-label>
                   <input matInput type="number" [(ngModel)]="tripForm.maxCapacity" name="maxCapacity" min="1" required />
-                  <mat-icon matSuffix>group</mat-icon>
+                  <mat-icon matSuffix class="icon-theme">group</mat-icon>
                 </mat-form-field>
 
-                <mat-form-field appearance="outline" class="third-width dense">
+                <mat-form-field appearance="outline" class="third-width dense form-field-theme">
                   <mat-label>Current Capacity</mat-label>
                   <input matInput type="number" [(ngModel)]="tripForm.currentCapacity" name="currentCapacity" min="0" [max]="tripForm.maxCapacity" required />
-                  <mat-icon matSuffix>people</mat-icon>
+                  <mat-icon matSuffix class="icon-theme">people</mat-icon>
                 </mat-form-field>
               </div>
 
               <!-- Requirements -->
-              <mat-form-field appearance="outline" class="full-width dense">
+              <mat-form-field appearance="outline" class="full-width dense form-field-theme">
                 <mat-label>Requirements</mat-label>
                 <textarea matInput [(ngModel)]="tripForm.requirements" name="requirements" rows="2"></textarea>
-                <mat-icon matSuffix>checklist</mat-icon>
+                <mat-icon matSuffix class="icon-theme">checklist</mat-icon>
               </mat-form-field>
 
               <!-- Description -->
-              <mat-form-field appearance="outline" class="full-width dense">
+              <mat-form-field appearance="outline" class="full-width dense form-field-theme">
                 <mat-label>Description</mat-label>
                 <textarea matInput [(ngModel)]="tripForm.description" name="description" rows="5" required></textarea>
-                <mat-icon matSuffix>description</mat-icon>
+                <mat-icon matSuffix class="icon-theme">description</mat-icon>
               </mat-form-field>
 
               <!-- Meeting Info -->
-              <mat-form-field appearance="outline" class="full-width dense">
+              <mat-form-field appearance="outline" class="full-width dense form-field-theme">
                 <mat-label>Meeting Info</mat-label>
                 <textarea matInput [(ngModel)]="tripForm.meetingInfo" name="meetingInfo" rows="2"></textarea>
-                <mat-icon matSuffix>event</mat-icon>
+                <mat-icon matSuffix class="icon-theme">event</mat-icon>
               </mat-form-field>
 
               <!-- Header Image URL -->
-              <mat-form-field appearance="outline" class="full-width dense">
+              <mat-form-field appearance="outline" class="full-width dense form-field-theme">
                 <mat-label>Header Image URL</mat-label>
                 <input matInput [(ngModel)]="tripForm.headerImage" name="headerImage" />
-                <mat-icon matSuffix>image</mat-icon>
+                <mat-icon matSuffix class="icon-theme">image</mat-icon>
               </mat-form-field>
 
               <!-- Related Links -->
@@ -176,7 +177,7 @@ import { CommentsService } from '../../services/comments-service';
                 <label class="section-label">Related Links</label>
                 @for (link of tripForm.relatedLinks; track $index) {
                   <div class="link-row">
-                    <mat-form-field appearance="outline" class="link-input dense">
+                    <mat-form-field appearance="outline" class="link-input dense form-field-theme">
                       <mat-label>Link {{ $index + 1 }}</mat-label>
                       <input matInput [(ngModel)]="tripForm.relatedLinks[$index]" [name]="'link-' + $index" />
                     </mat-form-field>
@@ -192,16 +193,16 @@ import { CommentsService } from '../../services/comments-service';
               </div>
 
               <!-- Status -->
-              <mat-form-field appearance="outline" class="full-width dense">
+              <mat-form-field appearance="outline" class="full-width dense form-field-theme">
                 <mat-label>Status</mat-label>
-                <mat-select [(ngModel)]="tripForm.status" name="status" required>
+                <mat-select [(ngModel)]="tripForm.status" name="status" required class="select-theme">
                   <mat-option value="proposed">Proposed</mat-option>
                   <mat-option value="confirmed">Confirmed</mat-option>
                 </mat-select>
               </mat-form-field>
 
               <!-- Visibility -->
-              <mat-checkbox [(ngModel)]="tripForm.visibility" name="visibility">
+              <mat-checkbox [(ngModel)]="tripForm.visibility" name="visibility" class="checkbox-theme">
                 Make this trip visible to others
               </mat-checkbox>
 
