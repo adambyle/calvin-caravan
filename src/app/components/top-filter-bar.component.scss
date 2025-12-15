@@ -1,0 +1,15 @@
+@use '@angular/material' as mat;
+
+.themed {
+  @include mat.tabs-overrides((
+    active-label-text-color: #f3cd01,
+    inactive-label-text-color: #ffffff,
+    active-hover-label-text-color: #f3cd01,
+    inactive-hover-label-text-color: #ffffff,
+    active-focus-label-text-color: #f3cd01,
+    inactive-focus-label-text-color: #ffffff,
+    active-indicator-color: #f3cd01,
+    active-focus-indicator-color: #f3cd01,
+    active-indicator-height: 5px
+  ));
+}
