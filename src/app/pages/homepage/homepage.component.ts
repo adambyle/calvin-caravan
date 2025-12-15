@@ -70,6 +70,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
       background: #4e121bff;
       color: #f3cd01;
       font-family: 'Segoe UI', Arial, sans-serif;
+      min-height: 100vh;
     }
 
     .spacer {
