@@ -119,8 +119,8 @@ import { CommentSection } from '../../models/CommentSection';
       }
       <div class="comment-section">
         <h3>Discussion</h3>
-        @if (commentSection?.messages?.length) {
-          @for (message of commentSection?.messages; track message.docID) {
+        @if (commentSection()) {
+          @for (message of commentSection()?.messages; track message.docID) {
             <div class="message">
               <div>
                 <strong>{{ getUserName(message.user_id) }}</strong>: {{ message.message }}
@@ -400,7 +400,7 @@ import { CommentSection } from '../../models/CommentSection';
 export class TripDetailsComponent implements OnInit {
   trip: Trip | null = null;
   owner: User | null = null;
-  commentSection: CommentSection | null = null;
+  commentSection = signal<CommentSection | null>(null);
   users: User[] = [];
   currentUserId: string | null = null;
   newMessage: string = '';
@@ -427,7 +427,9 @@ export class TripDetailsComponent implements OnInit {
           if (this.trip) {
             // Subscribe to comments
             this.commentsService.comnt$.subscribe(sections => {
-              this.commentSection = sections.find(s => s.trip_id === this.trip!.docID) || null;
+              this.commentSection.set(
+                sections.find(s => s.trip_id === this.trip!.docID) || null,
+              );
             });
             this.updateSignals();
           }
@@ -467,15 +469,17 @@ export class TripDetailsComponent implements OnInit {
   }
 
   async sendMessage() {
-    if (this.newMessage.trim() && this.commentSection && this.currentUserId) {
-      await this.commentsService.submitNewMessage(this.newMessage, this.currentUserId, this.commentSection.docID!);
+    const comments = this.commentSection();
+    if (this.newMessage.trim() && comments && this.currentUserId) {
+      await this.commentsService.submitNewMessage(this.newMessage, this.currentUserId, comments.docID!);
       this.newMessage = '';
     }
   }
 
   async deleteMessage(message: Message) {
-    if (this.commentSection) {
-      await this.commentsService.deleteMessage(message.docID!, this.commentSection.docID!);
+    const comments = this.commentSection();
+    if (comments) {
+      await this.commentsService.deleteMessage(message.docID!, comments.docID!);
     }
   }
 
