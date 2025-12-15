@@ -29,16 +29,16 @@ import { MatNativeDateModule } from '@angular/material/core';
       <div class="controls dense-input">
 
         <!-- Search -->
-        <mat-form-field appearance="outline" class="wide">
+        <mat-form-field appearance="outline" class="wide form-field-theme">
           <mat-label>Search trips</mat-label>
           <input matInput placeholder="Trip title"
                  [(ngModel)]="searchTerm"
                  (ngModelChange)="applyFilters()" />
-          <mat-icon matSuffix>search</mat-icon>
+          <mat-icon matSuffix class="icon-theme">search</mat-icon>
         </mat-form-field>
 
         <!-- Location -->
-        <mat-form-field appearance="outline" class="small">
+        <mat-form-field appearance="outline" class="small form-field-theme">
           <mat-label>Location</mat-label>
           <input matInput
                  [(ngModel)]="locationFilter"
@@ -46,15 +46,15 @@ import { MatNativeDateModule } from '@angular/material/core';
         </mat-form-field>
 
         <!-- Date -->
-        <mat-form-field appearance="outline" class="large">
+        <mat-form-field appearance="outline" class="large form-field-theme">
           <mat-label>Date Range</mat-label>
 
-          <mat-date-range-input [rangePicker]="picker">
+          <mat-date-range-input [rangePicker]="picker" class="date-picker-theme">
             <input  matStartDate placeholder="Start Date" [(ngModel)]="startDate" (ngModelChange)="applyFilters()">
             <input matEndDate placeholder="End Date" [(ngModel)]="endDate" (ngModelChange)="applyFilters()">
           </mat-date-range-input>
 
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker-toggle matSuffix [for]="picker" class="date-picker-theme"></mat-datepicker-toggle>
           <mat-date-range-picker #picker></mat-date-range-picker>
         </mat-form-field>
       </div>
