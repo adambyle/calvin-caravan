@@ -36,11 +36,11 @@ import { TripService } from '../../services/trip-service';
     TripListItemComponent
   ],
   template: `
-    <mat-toolbar color="primary" class="mat-toolbar">
+    <mat-toolbar color="primary" class="mat-toolbar dense">
       <button mat-icon-button routerLink="/">
         <mat-icon>arrow_back</mat-icon>
       </button>
-      <span>Calvin Caravan - My Account</span>
+      <span>My Account</span>
       <span class="spacer"></span>
       <div mat-raised-button (click)="signOut()" class="sign-out">
         Sign Out
@@ -280,6 +280,7 @@ import { TripService } from '../../services/trip-service';
     background-color: #8c2131; /* base color */
     color: #ffffff;            /* default text color */
     transition: color 0.2s ease; /* smooth hover transition */
+    cursor: pointer;
   }
 
     .sign-out:hover {

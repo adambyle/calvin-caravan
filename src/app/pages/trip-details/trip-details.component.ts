@@ -104,7 +104,7 @@ import { CommentSection } from '../../models/CommentSection';
                 <ul class="related-links">
                   @for (link of trip.relatedLinks; track link) {
                     <li>
-                      <a [href]="link" target="_blank">{{ link }}</a>
+                      <a class="link-text" [href]="link" target="_blank">{{ link }}</a>
                     </li>
                     }
                 </ul>
@@ -326,6 +326,9 @@ import { CommentSection } from '../../models/CommentSection';
       color: #ffffff;
       font-size: 15px;
       font-style: italic;
+    }
+    .link-text {
+      color: #f3cd01;
     }
     .related-links {
       margin: 0;
