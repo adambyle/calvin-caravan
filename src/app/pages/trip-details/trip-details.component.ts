@@ -149,17 +149,40 @@ import { CommentSection } from '../../models/CommentSection';
     </div>
   `,
   styles: [`
+    :host {
+      display: block;
+      background: #4e121bff;
+      color: #f3cd01;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      min-height: 100vh;
+    }
+
     .spacer {
       flex: 1 1 auto;
     }
+
+    mat-toolbar {
+      background-color: #8c2131;
+      color: #ffffff;
+    }
+
+    mat-toolbar button,
+    mat-toolbar button mat-icon,
+    mat-toolbar span {
+      color: #ffffff;
+    }
+
     .container {
       max-width: 900px;
       margin: 0 auto;
       padding: 20px;
+      background: #661924ff;
     }
     mat-card {
       margin-bottom: 24px;
       position: relative;
+      background-color: #8c2131;
+      color: #ffffff;
     }
     .detail-header-row {
       display: flex;
@@ -215,8 +238,8 @@ import { CommentSection } from '../../models/CommentSection';
     }
     .trip-field {
       font-size: 15px;
-      color: #333;
-      background: #f8f8f8;
+      color: #ffffff;
+      background: #661924ff;
       border-radius: 4px;
       padding: 6px 10px;
       margin-bottom: 2px;
@@ -225,8 +248,8 @@ import { CommentSection } from '../../models/CommentSection';
     }
     .trip-field-recs {
       font-size: 15px;
-      color: #333;
-      background: #eaf6fb;
+      color: #ffffff;
+      background: #661924ff;
       border-radius: 4px;
       padding: 6px 10px;
       margin-bottom: 2px;
@@ -235,7 +258,7 @@ import { CommentSection } from '../../models/CommentSection';
     }
     .trip-field-price {
       display: inline-block;
-      color: #14532d;
+      color: #f3cd01;
       font-weight: 700;
       font-size: 16px;
       margin-right: 10px;
@@ -247,7 +270,7 @@ import { CommentSection } from '../../models/CommentSection';
     .trip-field-location {
       display: inline-flex;
       align-items: center;
-      color: #795548;
+      color: #ffffff;
       font-weight: 500;
       font-size: 15px;
       padding: 4px 10px 4px 8px;
@@ -257,7 +280,7 @@ import { CommentSection } from '../../models/CommentSection';
     .location-icon {
       font-size: 20px;
       margin-right: 6px;
-      color: #ff9800;
+      color: #f3cd01;
       vertical-align: middle;
       position: relative;
       top: 1px;
@@ -266,7 +289,8 @@ import { CommentSection } from '../../models/CommentSection';
       min-width: 120px;
       max-width: 180px;
       display: inline-block;
-      background: #eaf6fb;
+      background: #661924ff;
+      color: #ffffff;
       font-size: 14px;
       padding: 4px 8px;
       margin-right: 4px;
@@ -280,8 +304,8 @@ import { CommentSection } from '../../models/CommentSection';
     }
     .trip-status {
       display: inline-block;
-      background-color: #e0e0e0;
-      color: #07b713ff;
+      background-color: #f3cd01;
+      color: #8c2131;
       padding: 2px 10px;
       border-radius: 12px;
       font-size: 13px;
@@ -289,8 +313,8 @@ import { CommentSection } from '../../models/CommentSection';
     }
     .tag {
       display: inline-block;
-      background-color: #e0e0e0;
-      color: #1976d2;
+      background-color: #f3cd01;
+      color: #8c2131;
       padding: 2px 10px;
       border-radius: 12px;
       font-size: 13px;
@@ -299,7 +323,7 @@ import { CommentSection } from '../../models/CommentSection';
     .description {
       display: block;
       margin-top: 4px;
-      color: #444;
+      color: #ffffff;
       font-size: 15px;
       font-style: italic;
     }
@@ -311,11 +335,12 @@ import { CommentSection } from '../../models/CommentSection';
       margin-bottom: 4px;
     }
     .comment-section {
-      border: 1px solid #ccc;
+      border: 1px solid #8c2131;
       padding: 20px;
       margin: 16px 0;
       border-radius: 4px;
-      background-color: #f9f9f9;
+      background-color: #8c2131;
+      color: #ffffff;
     }
     .message {
       display: flex;
@@ -323,14 +348,15 @@ import { CommentSection } from '../../models/CommentSection';
       gap: 2.5rem;
       margin-bottom: 10px;
       padding: 8px;
-      background-color: #fff;
+      background-color: #661924ff;
+      color: #ffffff;
       border-radius: 4px;
       box-shadow: 0 1px 2px rgba(0,0,0,0.1);
       position: relative;
     }
     .message small {
       display: block;
-      color: #666;
+      color: #f3cd01;
       font-size: 12px;
       margin-top: 4px;
     }
@@ -350,12 +376,12 @@ import { CommentSection } from '../../models/CommentSection';
     }
     
     .favorite-active mat-icon {
-      color: gold;
+      color: #f3cd01;
     }
 
     .commit-active {
-      background-color: #4caf50 !important;
-      color: white !important;
+      background-color: #f3cd01 !important;
+      color: #8c2131 !important;
     }
 
   @media (max-width: 600px) {
