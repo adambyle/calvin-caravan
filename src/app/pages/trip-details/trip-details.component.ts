@@ -119,7 +119,7 @@ import { CommentSection } from '../../models/CommentSection';
       }
       <div class="comment-section">
         <h3>Discussion</h3>
-        @if (commentSection()) {
+        @if (commentSection()?.messages?.length) {
           @for (message of commentSection()?.messages; track message.docID) {
             <div class="message">
               <div>
