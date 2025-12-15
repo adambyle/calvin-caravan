@@ -65,29 +65,53 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
     </div>
   `,
   styles: [`
+    :host {
+      display: block;
+      background: #4e121bff;
+      color: #f3cd01;
+      font-family: 'Segoe UI', Arial, sans-serif;
+    }
+
     .spacer {
       flex: 1 1 auto;
     }
 
-    .dev {
-      background-color: #aaa;
+    mat-toolbar {
+      background-color: #8c2131;
+      color: #ffffff;
+    }
+
+    mat-toolbar button,
+    mat-toolbar button mat-icon,
+    mat-toolbar span {
+      color: #ffffff;
     }
 
     .container {
       max-width: 1200px;
       margin: 0 auto;
       padding: 20px;
+      background: #661924ff;
     }
 
     .filter-toolbar {
       display: flex;
       width: 100%;
-      background-color: #99eeff;
+      background: #8c2131;
     }
 
     .trip-list h2 {
       margin-top: 0px;
       margin-bottom: 16px;
+      color: #f3cd01;
+    }
+
+    app-search-bar input,
+    app-search-bar textarea,
+    app-search-bar select {
+      background-color: #ffffff;
+      color: #8c2131;
+      border-color: rgba(140, 33, 49, 0.45);
     }
   `]
 })

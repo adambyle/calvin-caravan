@@ -20,7 +20,6 @@ import { User } from '../models/User';
   ],
   template: `
 <mat-card class="trip-card" appearance="outlined">
-<mat-card class="trip-card" appearance="outlined">
 
   <!-- HEADER -->
   <div class="header-row">
@@ -89,6 +88,8 @@ import { User } from '../models/User';
     .trip-card {
       margin: 12px 0;
       padding: 16px;
+      background-color: #8c2131;
+      border: 1px solid #8c2131;
     }
 
     .header-row {
