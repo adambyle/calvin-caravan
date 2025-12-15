@@ -120,13 +120,17 @@ import { CommentSection } from '../../models/CommentSection';
         @if (commentSection?.messages?.length) {
           @for (message of commentSection?.messages; track message.docID) {
             <div class="message">
-              <strong>{{ getUserName(message.user_id) }}</strong>: {{ message.message }}
-              <small>{{ message.timestamp.toDate() | date:'short' }}</small>
+              <div>
+                <strong>{{ getUserName(message.user_id) }}</strong>: {{ message.message }}
+                <small>{{ message.timestamp.toDate() | date:'short' }}</small>
+              </div>
+              <div>
               @if (message.user_id === currentUserId) {
-                <button mat-icon-button color="warn" (click)="deleteMessage(message)">
-                  <mat-icon>delete</mat-icon>
-                </button>
-              }
+                  <button mat-icon-button color="warn" (click)="deleteMessage(message)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                }
+              </div>
             </div>
           }
         } @else {
@@ -314,6 +318,9 @@ import { CommentSection } from '../../models/CommentSection';
       background-color: #f9f9f9;
     }
     .message {
+      display: flex;
+      align-items: flex-start;
+      gap: 2.5rem;
       margin-bottom: 10px;
       padding: 8px;
       background-color: #fff;
@@ -375,7 +382,7 @@ export class TripDetailsComponent implements OnInit {
     private tripService: TripService,
     private userService: UserService,
     private commentsService: CommentsService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.currentUserId = localStorage.getItem('currentUserId');
